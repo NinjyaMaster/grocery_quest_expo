@@ -35,7 +35,7 @@ export default function App() {
 
   return (
     <>
-    <StatusBar style="light" />
+    <StatusBar style="dark" />
     <NavigationContainer>
       {!isAuthenticated &&  <AuthScreen />}
       {isAuthenticated && <AuthenticatedScreen />}

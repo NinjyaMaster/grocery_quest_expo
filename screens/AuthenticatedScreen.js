@@ -5,6 +5,11 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
 
 import StoresScreen from './StoresScreen';
+import FriendsScreen from './FriendsScreen';
+import LogoutScreen from './LogoutScreen';
+import MyProfileScreen from './MyProfileScreen';
+
+import { Colors } from '../constants/colors';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -14,13 +19,13 @@ function DrawerNavigator() {
       <Drawer.Navigator
         useLegacyImplementation={true}
         screenOptions={{
-          headerStyle: { backgroundColor: '#351401' },
-          headerTintColor: 'white',
-          sceneContainerStyle: { backgroundColor: '#3f2f25' },
-          drawerContentStyle: { backgroundColor: '#351401' },
-          drawerInactiveTintColor: 'white',
-          drawerActiveTintColor: '#351401',
-          drawerActiveBackgroundColor: '#e4baa1',
+          headerStyle: { backgroundColor: Colors.primary100 },
+          headerTintColor: Colors.primary1000,
+          sceneContainerStyle: { backgroundColor: Colors.primary100 },
+          drawerContentStyle: { backgroundColor: Colors.primary800 },
+          drawerInactiveTintColor: Colors.primary700,
+          drawerActiveTintColor:  Colors.primary500 ,
+          drawerActiveBackgroundColor: Colors.primary100,
         }}
       >
         <Drawer.Screen
@@ -29,10 +34,40 @@ function DrawerNavigator() {
           options={{
             title: 'Stores',
             drawerIcon: ({ color, size }) => (
-              <Ionicons name="list" color={color} size={size} />
+              <Ionicons name="cart" color={color} size={size} />
             ),
           }}
         />
+        <Drawer.Screen
+          name="Friends"
+          component={FriendsScreen}
+          options={{
+            title: 'Friends',
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name="people" color={color} size={size} />
+            ),
+          }}
+        />
+          <Drawer.Screen
+          name="Logout"
+          component={LogoutScreen}
+          options={{
+            title: 'Logout',
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name="exit" color={color} size={size} />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name="My Profile"
+          component={MyProfileScreen}
+          options={{
+            title: 'My Profile',
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name="happy" color={color} size={size} />
+            ),
+          }}
+        />           
       </Drawer.Navigator>
     );
 }
@@ -41,9 +76,9 @@ export default function AuthenticatedScreen() {
     return (
       <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: '#351401' },
+        headerStyle: { backgroundColor: Colors.primary100 },
         headerTintColor: 'white',
-        contentStyle: { backgroundColor: 'white' },
+        contentStyle: { backgroundColor: Colors.primary100 },
       }}
     >
       <Stack.Screen

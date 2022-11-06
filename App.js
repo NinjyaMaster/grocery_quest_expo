@@ -1,45 +1,44 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Ionicons } from '@expo/vector-icons';
+import { useContext, useState } from 'react';
+import { StyleSheet } from 'react-native';
 
 import { StatusBar } from 'expo-status-bar';
 
-import LoginScreen from './screens/LoginScreen';
 import AuthenticatedScreen from './screens/AuthenticatedScreen';
-import { useState } from 'react';
+import AllowAnyScreen from './screens/AllowAny';
+import AuthContextProvider, { AuthContext } from './contexts/auth-context';
+
+
 
 const Stack = createNativeStackNavigator();
 
-function AuthScreen() {
+function Navigation(){
+  const authCtx = useContext(AuthContext);
+
   return (
-    <Stack.Navigator
-    screenOptions={{
-      headerStyle: { backgroundColor: '#351401' },
-      headerTintColor: 'white',
-      contentStyle: { backgroundColor: 'white' },
-    }}
-  >
-    <Stack.Screen
-      name="Login"
-      component={LoginScreen}
-      options={{
-        headerShown: false,
-      }}
-    />
-    </Stack.Navigator>
-  );
+    <NavigationContainer>
+      {!authCtx.isAuthenticated  &&  <AllowAnyScreen />}
+      {authCtx.isAuthenticated  && <AuthenticatedScreen />}
+    </NavigationContainer>    
+  )
 }
 
 export default function App() {
-  [isAuthenticated, setIsAuthenticated] = useState(true);
+  [isAuthenticated, setIsAuthenticated] = useState(false);
 
   return (
     <>
-    <StatusBar style="dark" />
-    <NavigationContainer>
-      {!isAuthenticated &&  <AuthScreen />}
-      {isAuthenticated && <AuthenticatedScreen />}
-    </NavigationContainer>
+      <StatusBar style="dark" />
+      <AuthContextProvider>
+        <Navigation />
+      </AuthContextProvider>
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  rootContainer: {
+    flex: 1
+  },
+});

@@ -6,7 +6,6 @@ import { Ionicons } from '@expo/vector-icons';
 
 import StoresScreen from './StoresScreen';
 import FriendsScreen from './FriendsScreen';
-import LogoutScreen from './LogoutScreen';
 import MyProfileScreen from './MyProfileScreen';
 
 import { Colors } from '../constants/colors';
@@ -15,6 +14,7 @@ const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
 function DrawerNavigator() {
+
     return (
       <Drawer.Navigator
         useLegacyImplementation={true}
@@ -48,16 +48,6 @@ function DrawerNavigator() {
             ),
           }}
         />
-          <Drawer.Screen
-          name="Logout"
-          component={LogoutScreen}
-          options={{
-            title: 'Logout',
-            drawerIcon: ({ color, size }) => (
-              <Ionicons name="exit" color={color} size={size} />
-            ),
-          }}
-        />
         <Drawer.Screen
           name="My Profile"
           component={MyProfileScreen}
@@ -67,7 +57,7 @@ function DrawerNavigator() {
               <Ionicons name="happy" color={color} size={size} />
             ),
           }}
-        />           
+        />       
       </Drawer.Navigator>
     );
 }

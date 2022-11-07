@@ -40,7 +40,7 @@ function CustomDrawerContent(props) {
           /*labelStyle={{ fontSize: 14, fontFamily: 'OpenSans-SemiBold' }}     */
           /*activeBackgroundColor= "#F1F1F1" */
           /*activeTintColor={Colors.primary500}*/
-          inactiveTintColor={Colors.primary700}         
+          inactiveTintColor={Colors.primary200}         
           label="Logout"
           icon={({ focused, color, size }) => (
                     <Ionicons name="exit" color={color} size={size} />
@@ -64,7 +64,7 @@ function DrawerNavigator() {
             headerTintColor: Colors.primary1000,
             sceneContainerStyle: { backgroundColor: Colors.primary100 },
         //  drawerContentStyle: { backgroundColor: Colors.primary800 },//
-            drawerInactiveTintColor: Colors.primary700,
+            drawerInactiveTintColor: Colors.primary200,
             drawerActiveTintColor:  Colors.primary500 ,
             drawerActiveBackgroundColor: Colors.primary100,
         }}        

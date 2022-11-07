@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 import { useContext, useState } from 'react';
 import { useNavigation } from '@react-navigation/native'
 
@@ -7,29 +7,46 @@ import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import FlatButton from '../components/ui/FlatButton';
 
-import { BASE_URL, LOGIN_URL } from '../constants/network';
+import { BASE_URL, REGISTER_URL } from '../constants/network';
 import { AuthContext } from '../contexts/auth-context';
 
-export default function LoginScreen() {
+export default function RegisterScreen() {
 
   const [enteredEmail, setEnteredEmail] = useState('');
+  const [enteredConfirmEmail, setEnteredConfirmEmail] = useState('');  
   const [enteredPassword, setEnteredPassword] = useState('');
+  const [enteredUsername, setEnteredUsername] = useState('');  
 
   const navigation = useNavigation();
   const authCtx = useContext(AuthContext);
 
+
   function submitHandler(){
-    console.log('login',`${BASE_URL}${LOGIN_URL}`);
+    console.log('register',`${BASE_URL}${REGISTER_URL}`);
     console.log(enteredEmail)
     console.log(enteredPassword)
-    axios.post(`${BASE_URL}${LOGIN_URL}`,
+
+    axios.post(`${BASE_URL}${REGISTER_URL}`,
             {
+              username: enteredUsername,
               email: enteredEmail,
               password: enteredPassword,
             })
           .then(res => {
             console.log(res.data);
-            authCtx.authenticate(res.data);
+            Alert.alert(
+              `Email has sent to ${enteredEmail}`,
+              "Please verify the email",
+              [
+                {
+                  text: "Cancel",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel"
+                },
+                { text: "OK", onPress: () => console.log("OK Pressed") }
+              ]
+            );
+            navigation.replace('Login');
           })
           .catch(error => {
             console.log(error);
@@ -42,14 +59,20 @@ export default function LoginScreen() {
       case 'email':
         setEnteredEmail(enteredValue);
         break;
+      case 'confirmEmail':
+        setEnteredConfirmEmail(enteredValue);
+        break;      
       case 'password':
         setEnteredPassword(enteredValue);
         break;
+      case 'username':
+          setEnteredUsername(enteredValue);
+          break;        
     }
   }
 
   function switchToRegister(){
-    navigation.replace('Register');
+    navigation.replace('Login');
   }
 
   return (
@@ -63,6 +86,22 @@ export default function LoginScreen() {
           isInvalid={true}
         />
         <Input
+            label="Confirm Email Address"
+            onUpdateValue={updateInputValueHandler.bind(this, 'confirmEmail')}
+            value={enteredConfirmEmail}
+            keyboardType="email-address"
+            isInvalid={true}
+        />        
+        <Input
+            label="Username"
+            onUpdateValue={updateInputValueHandler.bind(
+              this,
+              'username'
+            )}
+            value={enteredUsername}
+            isInvalid={true}
+        />
+        <Input
           label="Password"
           onUpdateValue={updateInputValueHandler.bind(this, 'password')}
           secure
@@ -71,10 +110,10 @@ export default function LoginScreen() {
         />
         <View style={styles.buttons}>
           <Button onPress={submitHandler}>
-              Login
+              Signup
           </Button>
           <FlatButton onPress={switchToRegister}>
-              Create a new user
+              Login instead
         </FlatButton>         
         </View>
       </View>
@@ -83,7 +122,15 @@ export default function LoginScreen() {
 }
 
 const styles = StyleSheet.create({
-  buttons: {
-    marginTop: 12,
+  rootContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 32,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 8,
   },
 });

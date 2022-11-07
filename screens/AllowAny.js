@@ -2,7 +2,7 @@ import { Colors } from '../constants/colors';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import LoginScreen from './LoginScreen';
-import SignupScreen from './SignupScreen';
+import RegisterScreen from './RegisterScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -24,8 +24,8 @@ export default function AllowAnyScreen() {
       }}
     />
     <Stack.Screen
-      name="Signup"
-      component={SignupScreen}
+      name="Register"
+      component={RegisterScreen}
       options={{
         headerShown: false,
       }}

@@ -1,5 +1,6 @@
 export const Colors = {
     primary100: '#F7F6DC', // Bright Beige
+    primary200: '#FCFCE0', // more Bright Beige, ivory  
     primary300: '#FFC090', // whitish orange
     primary500: '#7FB77E', // Dark Sea Green
     primary700: '#FDFFFC', //  slightly dark white

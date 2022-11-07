@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import { useContext } from 'react';
-import { Text } from 'react-native';
+import { Text, View, Image } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
   createDrawerNavigator,
@@ -17,29 +17,46 @@ import FriendsScreen from './FriendsScreen';
 import MyProfileScreen from './MyProfileScreen';
 
 import { Colors } from '../constants/colors';
+import  IconButton from '../components/ui/IconButton'
 
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
+/*
+*    Tag design is from https://youtu.be/mRoDNjhRO3E
+*/
+
 function CustomDrawerContent(props) {
   const authCtx = useContext(AuthContext);
 
   return (
+    <View style={{ flex: 1 }}>
     <DrawerContentScrollView 
       contentContainerStyle={{flex: 1, top: 0, bottom: 0, backgroundColor: Colors.primary800 }}
       {...props}
     >
-      <DrawerItem
-        label={ 
-                ({ color }) => <Text style={{ color }}>authCtx.username</Text>
-        }
-      />       
+      <View 
+          style={{ 
+              flexDirection: 'row', 
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: 20,
+              marginBottom: 5,
+            }}>
+          <View>
+            <Text>Username</Text>
+            <Text>Friends</Text>
+          </View>
+          <Image
+            source={{
+              uri: 'https://images.unsplash.com/photo-1624243225303-261cc3cd2fbc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80',
+            }}
+            style={{ width: 60, height: 60, borderRadius: 30 }}
+          />
+      </View>      
       <DrawerItemList {...props} />
-      <DrawerItem     
-          /*labelStyle={{ fontSize: 14, fontFamily: 'OpenSans-SemiBold' }}     */
-          /*activeBackgroundColor= "#F1F1F1" */
-          /*activeTintColor={Colors.primary500}*/
+      <DrawerItem 
           inactiveTintColor={Colors.primary200}         
           label="Logout"
           icon={({ focused, color, size }) => (
@@ -49,6 +66,13 @@ function CustomDrawerContent(props) {
           activeBackgroundColor={Colors.primary100}
       />
     </DrawerContentScrollView>
+    <IconButton
+              icon="exit"
+              color={Colors.primary500}
+              size={24}
+              onPress={authCtx.logout}
+    />
+    </View>
   );
 }
 

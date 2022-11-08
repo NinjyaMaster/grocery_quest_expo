@@ -3,16 +3,31 @@ import Button from '../components/ui/Button';
 import { AuthContext } from '../contexts/auth-context'; 
 import { useContext } from 'react';
 
+import StoresOutput from '../components/stores/StoresOutput'
+
+const DUMMY_STORES2 = [
+  {
+      id: '0',
+      name: 'Whole Foods',        
+  },
+  {
+      id: '1',
+      name: 'Target',        
+  },
+  {
+      id: '2',
+      name: 'LuLuLemon',        
+  },    
+];
+
+
 export default function StoresScreen() {
   const authCtx = useContext(AuthContext);
 
   return (
     <View style={styles.rootContainer}>
       <Text style={styles.title}>Stores!</Text>
-      <Text>Stores List!</Text>
-      <Button onPress={authCtx.logout}>
-              Logout
-          </Button>     
+      <StoresOutput stores={DUMMY_STORES2} titleText='stores'/>     
     </View>
   );
 }

@@ -8,11 +8,14 @@ import {
   DrawerItemList,
   DrawerItem,
 } from '@react-navigation/drawer';
-import { AuthContext } from '../contexts/auth-context'; 
+import { AuthContext } from '../contexts/auth-context';
 
 import { Ionicons } from '@expo/vector-icons';
 
-import StoresScreen from './StoresScreen';
+import StoresScreen from './stores/StoresScreen';
+import StoreDetailScreen from './stores/StoreDetailScreen';
+import AddStoreScreen from './stores/AddStoreScreen';
+import AddGroceryScreen from './stores/AddGrocery';
 import FriendsScreen from './FriendsScreen';
 import MyProfileScreen from './MyProfileScreen';
 
@@ -32,13 +35,13 @@ function CustomDrawerContent(props) {
 
   return (
     <View style={{ flex: 1 }}>
-    <DrawerContentScrollView 
+    <DrawerContentScrollView
       contentContainerStyle={{flex: 1, top: 0, bottom: 0, backgroundColor: Colors.primary800 }}
       {...props}
     >
-      <View 
-          style={{ 
-              flexDirection: 'row', 
+      <View
+          style={{
+              flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
               padding: 20,
@@ -54,14 +57,14 @@ function CustomDrawerContent(props) {
             }}
             style={{ width: 60, height: 60, borderRadius: 30 }}
           />
-      </View>      
+      </View>
       <DrawerItemList {...props} />
-      <DrawerItem 
-          inactiveTintColor={Colors.primary200}         
+      <DrawerItem
+          inactiveTintColor={Colors.primary200}
           label="Logout"
           icon={({ focused, color, size }) => (
                     <Ionicons name="exit" color={color} size={size} />
-                )} 
+                )}
           onPress={authCtx.logout}
           activeBackgroundColor={Colors.primary100}
       />
@@ -91,7 +94,7 @@ function DrawerNavigator() {
             drawerInactiveTintColor: Colors.primary200,
             drawerActiveTintColor:  Colors.primary500 ,
             drawerActiveBackgroundColor: Colors.primary100,
-        }}        
+        }}
       >
         <Drawer.Screen
           name="Stores"
@@ -122,7 +125,7 @@ function DrawerNavigator() {
               <Ionicons name="happy" color={color} size={size} />
             ),
           }}
-        />       
+        />
       </Drawer.Navigator>
     );
 }
@@ -132,7 +135,7 @@ export default function AuthenticatedScreen() {
       <Stack.Navigator
       screenOptions={{
         headerStyle: { backgroundColor: Colors.primary100 },
-        headerTintColor: 'white',
+        headerTintColor: Colors.primary1000,
         contentStyle: { backgroundColor: Colors.primary100 },
       }}
     >
@@ -141,6 +144,23 @@ export default function AuthenticatedScreen() {
         component={DrawerNavigator}
         options={{
           headerShown: false,
+        }}
+      />
+      <Stack.Screen name="StoreDetail"
+        component={StoreDetailScreen}
+        options={{
+        }}
+      />
+      <Stack.Screen name="AddStore"
+        component={AddStoreScreen}
+        options={{
+          presentation: 'modal',
+        }}
+      />
+      <Stack.Screen name="AddGrocery"
+        component={AddGroceryScreen}
+        options={{
+          presentation: 'modal',
         }}
       />
       </Stack.Navigator>

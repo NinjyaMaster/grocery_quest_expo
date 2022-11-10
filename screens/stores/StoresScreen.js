@@ -22,9 +22,9 @@ const DUMMY_STORES2 = [
 ];
 
 
-export default function StoresScreen() {
+export default function StoresScreen({navigation}) {
   const authCtx = useContext(AuthContext);
-  const navigation = useNavigation();
+  //const navigation = useNavigation();
 
   function handleAddStore(){
     console.log("Add Store");

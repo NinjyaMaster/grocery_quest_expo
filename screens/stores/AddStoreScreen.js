@@ -1,15 +1,21 @@
 import { StyleSheet, Text, View } from 'react-native';
 import Button from '../../components/ui/Button';
+import { useNavigation } from "@react-navigation/native";
 //import { AuthContext } from '../contexts/auth-context';
 //import { useContext } from 'react';
 
 
-export default function AddStoreScreen() {
+export default function AddStoreScreen({navigation}) {
   //const authCtx = useContext(AuthContext);
+
+  function handleScreenClose(){
+    navigation.goBack();
+  }
 
   return (
     <View style={styles.rootContainer}>
       <Text style={styles.title}>Add Store</Text>
+      <Button onPress={handleScreenClose}>Close Screen</Button>
     </View>
   );
 }

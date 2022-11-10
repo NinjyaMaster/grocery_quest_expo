@@ -8,9 +8,14 @@ export default function AddGroceryScreen({route, navigation}) {
   //const authCtx = useContext(AuthContext);
   const storeId = route.params?.storeId;
 
+  function handleScreenClose(){
+    navigation.goBack();
+  }
+
   return (
     <View style={styles.rootContainer}>
       <Text style={styles.title}>Add Grocery to Store {storeId}</Text>
+      <Button onPress={handleScreenClose}>Cancel</Button>
     </View>
   );
 }

@@ -1,12 +1,13 @@
 import { StyleSheet, Text, View } from 'react-native';
 import Button from '../../components/ui/Button';
 import { AuthContext } from '../../contexts/auth-context';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { useNavigation } from "@react-navigation/native";
 
 import StoresOutput from '../../components/stores/StoresOutput'
+import { StoresContext } from '../../contexts/stores_context';
 
-const DUMMY_STORES2 = [
+const DUMMY_STORES = [
   {
       id: '0',
       name: 'Whole Foods',
@@ -24,10 +25,17 @@ const DUMMY_STORES2 = [
 
 export default function StoresScreen({navigation}) {
   const authCtx = useContext(AuthContext);
+  const storeCtx = useContext(StoresContext);
   //const navigation = useNavigation();
 
+  useEffect( () => {
+    DUMMY_STORES.forEach( function(store){
+      storeCtx.addStore(store);
+    });
+
+  },[]);
+
   function handleAddStore(){
-    console.log("Add Store");
     navigation.navigate("AddStore");
 
   }
@@ -36,7 +44,8 @@ export default function StoresScreen({navigation}) {
     <View style={styles.rootContainer}>
       <Text style={styles.title}>Stores!</Text>
       <Button onPress={handleAddStore}>Add Store</Button>
-      <StoresOutput stores={DUMMY_STORES2} titleText='stores'/>
+      {/*<StoresOutput stores={DUMMY_STORES2} titleText='stores'/>*/}
+      <StoresOutput stores={storeCtx.stores}  titleText='stores' />
     </View>
   );
 }

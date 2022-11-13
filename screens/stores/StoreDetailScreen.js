@@ -1,15 +1,26 @@
 import { StyleSheet, Text, View } from 'react-native';
 import Button from '../../components/ui/Button';
-//import { AuthContext } from '../contexts/auth-context';
-//import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
+
+import  StoreItem from '../../components/stores/StoreItem';
+
+import { StoresContext } from '../../contexts/stores_context';
 
 
 export default function StoreDetailScreen({route, navigation}) {
-  //const authCtx = useContext(AuthContext);
   const storeId = route.params?.storeId;
+  const storeCtx = useContext(StoresContext);
+  const [store, setStore] = useState();
+
+  useEffect( () => {
+    storeCtx.stores.forEach( function(store){
+      if ( store.id === storeId){
+        setStore(store);
+      }
+    });
+  }, []);
 
   function handleAddGrocery(){
-      console.log("Add Store");
       navigation.navigate("AddGrocery",{
         storeId: storeId,
       });
@@ -18,6 +29,7 @@ export default function StoreDetailScreen({route, navigation}) {
   return (
     <View style={styles.rootContainer}>
       <Text style={styles.title}>Store Detail</Text>
+      <StoreItem {...store} />
       <Button onPress={handleAddGrocery}>Add Grocery</Button>
     </View>
   );

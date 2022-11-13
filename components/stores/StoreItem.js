@@ -7,7 +7,6 @@ export default function StoreItem({id, name}){
     const navigation = useNavigation();
 
     function storesPressHandler(){
-        console.log("***************hi", id)
         navigation.navigate('StoreDetail',{
              storeId: id });
     }

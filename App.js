@@ -8,7 +8,7 @@ import { StatusBar } from 'expo-status-bar';
 import AuthenticatedScreen from './screens/AuthenticatedScreen';
 import AllowAnyScreen from './screens/AllowAny';
 import AuthContextProvider, { AuthContext } from './contexts/auth-context';
-
+import StoreContextPtovider from './contexts/stores_context';
 
 
 const Stack = createNativeStackNavigator();
@@ -19,8 +19,8 @@ function Navigation(){
   return (
     <NavigationContainer>
       {!authCtx.isAuthenticated  &&  <AllowAnyScreen />}
-      {authCtx.isAuthenticated  && <AuthenticatedScreen />}
-    </NavigationContainer>    
+      {authCtx.isAuthenticated  && <StoreContextPtovider><AuthenticatedScreen /></StoreContextPtovider>}
+    </NavigationContainer>
   )
 }
 

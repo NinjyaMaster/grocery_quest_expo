@@ -3,30 +3,12 @@ import StoresList from "./StoresList";
 import { Colors } from "../../constants/colors";
 
 
-const DUMMY_STORES = [
-    {
-        id: '0',
-        name: 'Whole Foods',        
-    },
-    {
-        id: '1',
-        name: 'Target',        
-    },
-    {
-        id: '2',
-        name: 'LuLuLemon',        
-    },    
-];
-
-
 export default function StoresOutput({stores, titleText}){
     let content = <Text style={styles.infoText}>{titleText}</Text>
-    
+
     if(stores.length > 0){
         content = <StoresList stores={stores} />;
-        /*content = <StoresList stores={DUMMY_STORES} />;*/
     }
-
 
     return (
         <View style={styles.container}>

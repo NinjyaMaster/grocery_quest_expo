@@ -2,35 +2,31 @@ import { StyleSheet, Text, View } from 'react-native';
 import Button from '../../components/ui/Button';
 import { AuthContext } from '../../contexts/auth-context';
 import { useContext, useEffect } from 'react';
-import { useNavigation } from "@react-navigation/native";
 
 import StoresOutput from '../../components/stores/StoresOutput'
 import { StoresContext } from '../../contexts/stores_context';
 
-const DUMMY_STORES = [
-  {
-      id: '0',
-      name: 'Whole Foods',
-  },
-  {
-      id: '1',
-      name: 'Target',
-  },
-  {
-      id: '2',
-      name: 'LuLuLemon',
-  },
-];
-
+import axios from 'axios';
+import { BASE_URL, STORES_URL } from '../../constants/network';
 
 export default function StoresScreen({navigation}) {
   const authCtx = useContext(AuthContext);
   const storeCtx = useContext(StoresContext);
-  //const navigation = useNavigation();
 
   useEffect( () => {
-    DUMMY_STORES.forEach( function(store){
-      storeCtx.addStore(store);
+    axios.get(
+      `${BASE_URL}${STORES_URL}`,
+      { headers: {"Authorization": `Bearer ${authCtx.token}`}}
+    )
+    .then( res => {
+      const storesList = res.data;
+      storesList.forEach(store => {
+        storeCtx.addStore(store);
+      });
+    })
+    .catch(error => {
+      console.log(error);
+      return error;
     });
 
   },[]);
@@ -44,7 +40,6 @@ export default function StoresScreen({navigation}) {
     <View style={styles.rootContainer}>
       <Text style={styles.title}>Stores!</Text>
       <Button onPress={handleAddStore}>Add Store</Button>
-      {/*<StoresOutput stores={DUMMY_STORES2} titleText='stores'/>*/}
       <StoresOutput stores={storeCtx.stores}  titleText='stores' />
     </View>
   );

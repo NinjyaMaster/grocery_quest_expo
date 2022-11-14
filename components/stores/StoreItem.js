@@ -19,10 +19,10 @@ export default function StoreItem({id, name}){
             <View style={styles.storeItem}>
                 <View>
                     <Text style={[styles.textBase, styles.name]}>
-                        {name}
+                        id : {id}
                     </Text>
                     <Text style={styles.textBase}>
-                        text
+                        {name}
                     </Text>
                 </View>
             </View>

@@ -10,7 +10,7 @@ import { StoresContext } from '../../contexts/stores_context';
 export default function StoreDetailScreen({route, navigation}) {
   const storeId = route.params?.storeId;
   const storeCtx = useContext(StoresContext);
-  const [store, setStore] = useState();
+  const [store, setStore] = useState({});
 
   useEffect( () => {
     storeCtx.stores.forEach( function(store){

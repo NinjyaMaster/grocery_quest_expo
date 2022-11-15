@@ -4,7 +4,8 @@ import { useNavigation } from "@react-navigation/native";
 
 import IconButton from "../ui/IconButton";
 
-export default function StoreItem({id, name}){
+
+export default function GroceryItem({id, name}){
     const navigation = useNavigation();
 
     function storesPressHandler(){
@@ -27,21 +28,20 @@ export default function StoreItem({id, name}){
                         <Text style={[styles.textBase, styles.name]}>
                             id : {id}
                         </Text>
-                        <Text style={styles.textBase}>
+                        <Text style={[styles.textBase, styles.name]}>
                             {name}
                         </Text>
                     </View>
                 </View>
-
             </Pressable>
             <IconButton
-                    icon="trash"
-                    color={Colors.primary500}
-                    size={30}
-                    onPress={storeDeleteHandler}
+                icon="trash"
+                color={Colors.primary500}
+                size={30}
+                onPress={storeDeleteHandler}
             />
         </View>
-        );
+    );
 }
 
 const styles = StyleSheet.create({

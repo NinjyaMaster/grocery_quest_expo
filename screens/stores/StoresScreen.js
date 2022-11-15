@@ -20,9 +20,8 @@ export default function StoresScreen({navigation}) {
     )
     .then( res => {
       const storesList = res.data;
-      storesList.forEach(store => {
-        storeCtx.addStore(store);
-      });
+      console.log(storesList);
+      storeCtx.setStores(storesList);
     })
     .catch(error => {
       console.log(error);
@@ -38,9 +37,8 @@ export default function StoresScreen({navigation}) {
 
   return (
     <View style={styles.rootContainer}>
-      <Text style={styles.title}>Stores!</Text>
       <Button onPress={handleAddStore}>Add Store</Button>
-      <StoresOutput stores={storeCtx.stores}  titleText='stores' />
+      <StoresOutput stores={storeCtx.stores}/>
     </View>
   );
 }

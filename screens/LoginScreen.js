@@ -75,7 +75,7 @@ export default function LoginScreen() {
           </Button>
           <FlatButton onPress={switchToRegister}>
               Create a new user
-        </FlatButton>         
+        </FlatButton>
         </View>
       </View>
     </View>
@@ -83,6 +83,9 @@ export default function LoginScreen() {
 }
 
 const styles = StyleSheet.create({
+  form: {
+    padding: 32,
+  },
   buttons: {
     marginTop: 12,
   },

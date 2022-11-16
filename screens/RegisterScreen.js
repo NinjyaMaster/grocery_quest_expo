@@ -13,9 +13,9 @@ import { AuthContext } from '../contexts/auth-context';
 export default function RegisterScreen() {
 
   const [enteredEmail, setEnteredEmail] = useState('');
-  const [enteredConfirmEmail, setEnteredConfirmEmail] = useState('');  
+  const [enteredConfirmEmail, setEnteredConfirmEmail] = useState('');
   const [enteredPassword, setEnteredPassword] = useState('');
-  const [enteredUsername, setEnteredUsername] = useState('');  
+  const [enteredUsername, setEnteredUsername] = useState('');
 
   const navigation = useNavigation();
   const authCtx = useContext(AuthContext);
@@ -61,13 +61,13 @@ export default function RegisterScreen() {
         break;
       case 'confirmEmail':
         setEnteredConfirmEmail(enteredValue);
-        break;      
+        break;
       case 'password':
         setEnteredPassword(enteredValue);
         break;
       case 'username':
           setEnteredUsername(enteredValue);
-          break;        
+          break;
     }
   }
 
@@ -91,7 +91,7 @@ export default function RegisterScreen() {
             value={enteredConfirmEmail}
             keyboardType="email-address"
             isInvalid={true}
-        />        
+        />
         <Input
             label="Username"
             onUpdateValue={updateInputValueHandler.bind(
@@ -114,7 +114,7 @@ export default function RegisterScreen() {
           </Button>
           <FlatButton onPress={switchToRegister}>
               Login instead
-        </FlatButton>         
+        </FlatButton>
         </View>
       </View>
     </View>
@@ -126,6 +126,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 32,
+  },
+  form: {
     padding: 32,
   },
   title: {

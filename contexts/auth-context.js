@@ -18,7 +18,6 @@ export default function AuthContextProvider({ children }) {
 
     function authenticate(responseData){
         setAccessToken(responseData['tokens']['access']);
-        setAccessToken('testTokens');
         setRefreshToken(responseData['tokens']['refresh']);
         setEmail(responseData['email']);
         setUsername(responseData['username']);

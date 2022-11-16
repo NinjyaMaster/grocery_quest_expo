@@ -36,11 +36,16 @@ export default function StoreDetailScreen({route, navigation}) {
       });
   }
 
+  function handleDeleteStore(){
+    console.log("delete");
+}
+
   return (
     <View style={styles.rootContainer}>
       <Button onPress={handleAddGrocery}>Add Grocery</Button>
       {isGroceryEmpty &&  <Text>Please Add Grocery</Text>}
       {!isGroceryEmpty  &&  <GroceriesList groceries={store.groceries} />}
+      <Button onPress={handleDeleteStore}>Delete Store</Button>
     </View>
   );
 }

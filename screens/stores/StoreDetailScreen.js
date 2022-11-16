@@ -11,20 +11,24 @@ export default function StoreDetailScreen({route, navigation}) {
   const storeId = route.params?.storeId;
   const storeCtx = useContext(StoresContext);
   const [store, setStore] = useState({});
-  const [groceries, setGroceries] = useState([]);
-  const [isGroceryEmpty, setIsGroceryEmpty] = useState(false);
+  const [isGroceryEmpty, setIsGroceryEmpty] = useState(true);
 
   useEffect( () => {
-    storeCtx.stores.forEach( function(store){
-      if ( store.id === storeId){
-        setStore(store);
-        setGroceries(store.groceries);
-        if(store.groceries.length!== 0){
-          setIsGroceryEmpty(true);
-        }
-      }
+    const storeObj = storeCtx.stores.find(
+      (store) => store.id === storeId
+    );
+    setStore(storeObj);
+    if(storeObj.groceries.length !== 0){
+      setIsGroceryEmpty(false);
+    }
+
+    navigation.setOptions({
+      title: storeObj.name,
     });
+
   }, []);
+
+
 
   function handleAddGrocery(){
       navigation.navigate("AddGrocery",{
@@ -34,10 +38,9 @@ export default function StoreDetailScreen({route, navigation}) {
 
   return (
     <View style={styles.rootContainer}>
-      <Text style={styles.title}>{store.name}</Text>
       <Button onPress={handleAddGrocery}>Add Grocery</Button>
-      {!isGroceryEmpty &&  <Text>Please Add Grocery</Text>}
-      {isGroceryEmpty  &&  <GroceriesList groceries={groceries} />}
+      {isGroceryEmpty &&  <Text>Please Add Grocery</Text>}
+      {!isGroceryEmpty  &&  <GroceriesList groceries={store.groceries} />}
     </View>
   );
 }

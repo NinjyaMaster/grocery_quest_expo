@@ -35,6 +35,12 @@ export default function GroceryItem({id, name}){
                 </View>
             </Pressable>
             <IconButton
+                icon="checkbox"
+                color={Colors.primary500}
+                size={30}
+                onPress={storeDeleteHandler}
+            />
+            <IconButton
                 icon="trash"
                 color={Colors.primary500}
                 size={30}

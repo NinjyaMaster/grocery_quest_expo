@@ -155,12 +155,14 @@ export default function AuthenticatedScreen() {
         component={AddStoreScreen}
         options={{
           presentation: 'modal',
+          title: 'Add Store',
         }}
       />
       <Stack.Screen name="AddGrocery"
         component={AddGroceryScreen}
         options={{
           presentation: 'modal',
+          title: 'Add Grocery',
         }}
       />
       </Stack.Navigator>

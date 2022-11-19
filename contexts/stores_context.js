@@ -4,29 +4,48 @@ import { createContext, useReducer } from "react";
 export const StoresContext = createContext({
     stores: [],
     addStore:({description, amount, date}) => {},
+    addGroceries: ({storeId, groceriesData}) => {},
+    deleteGrocery: ({}) => {},
     setStores: (store) => {},
     deleteStore: (id) => {},
     updateStore: (id, {description, amount, date}) => {}
 });
 
 function storesReducer(state, action){
+    let updatableStoreIndex;
+    let updatableStore;
+    let updatedStore;
+    let updatedStores;
+
     switch(action.type){
-        case 'ADD':
+        case 'ADD_STORE':
             return [ action.payload , ...state];
+        case 'ADD_GROCERIES':
+            updatableStoreIndex = state.findIndex(
+                (store) => store.id === action.payload.storeId
+            );
+            updatableStore = state[updatableStoreIndex];
+            updatedStore = {...updatableStore};
+            updatedStore.groceries.push(action.payload.groceriesData);
+            updatedStores = [...state];
+            updatedStores[updatableStoreIndex] = updatedStore;
+            return updatedStores;
         case 'SET':
             const inverted = action.payload.reverse();
             return inverted;
         case 'UPDATE':
-            const updatableStoreIndex = state.findIndex(
+            updatableStoreIndex = state.findIndex(
                 (store) => store.id === action.payload.id
                 );
-            const updatableStore = state[updatableStoreIndex];
-            const updatedItem = {...updatableStore, ...action.payload.data};
-            const updatedStores = [...state];
+            updatableStore = state[updatableStoreIndex];
+            updatedItem = {...updatableStore, ...action.payload.data};
+            updatedStores = [...state];
             updatedStores[updatableStoreIndex] = updatedItem;
             return updatedStores;
-        case 'DELETE':
+        case 'DELETE_STORE':
             return state.filter((store) => store.id !== action.payload);
+        case 'DELETE_GROCERY':
+                return state.filter((store) => store.id !== action.payload);
         default:
             return state;
     }
@@ -36,7 +55,11 @@ export default function StoresContextProvider({children}){
     const [storesState, dispatch] = useReducer(storesReducer, []);
 
     function addStore(storeData){
-        dispatch({type: 'ADD', payload: storeData});
+        dispatch({type: 'ADD_STORE', payload: storeData});
+    }
+
+    function addGroceries(storeId, groceriesData){
+        dispatch({type: 'ADD_GROCERIES', payload: {storeId:storeId, groceriesData:groceriesData}});
     }
 
     function setStores(stores){
@@ -44,7 +67,11 @@ export default function StoresContextProvider({children}){
     }
 
     function deleteStore(id){
-        dispatch({type: 'DELETE', payload: id});
+        dispatch({type: 'DELETE_STORE', payload: id});
+    }
+
+    function deleteGrocery(id){
+        dispatch({type: 'DELETE_GROCERY', payload: id});
     }
 
     function updateStore(id, storeData){
@@ -55,7 +82,9 @@ export default function StoresContextProvider({children}){
         stores :  storesState,
         setStores: setStores,
         addStore: addStore,
+        addGroceries: addGroceries,
         deleteStore: deleteStore,
+        deleteGrocery: deleteGrocery,
         updateStore: updateStore,
     };
 

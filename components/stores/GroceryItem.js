@@ -1,20 +1,37 @@
 import { Pressable, View, Text , StyleSheet} from "react-native";
 import { Colors } from "../../constants/colors";
 import { useNavigation } from "@react-navigation/native";
+import { useContext } from "react";
+
+import axios from 'axios';
 
 import IconButton from "../ui/IconButton";
+import { BASE_URL, GROCERY_URL } from '../../constants/network';
+import { AuthContext } from '../../contexts/auth-context';
+import { StoresContext } from '../../contexts/stores_context';
 
-
-export default function GroceryItem({id, name}){
+export default function GroceryItem({id, store_id, name}){
     const navigation = useNavigation();
+    const authCtx = useContext(AuthContext);
+    const storesCtx = useContext(StoresContext);
 
     function storesPressHandler(){
-        navigation.navigate('StoreDetail',{
-             storeId: id });
+        //navigation.navigate('StoreDetail',{
+        //     storeId: id });
     }
 
-    function storeDeleteHandler(){
-        console.log("Store id:", id, "is deleted");
+    function groceryDeleteHandler(){
+        axios.delete(
+            `${BASE_URL}${GROCERY_URL}${id}`,
+            authCtx.apiAuthHeaders
+          )
+          .then( res => {
+            storesCtx.deleteGrocery(store_id, id);
+          })
+          .catch(error => {
+            console.log(error);
+            return error;
+          });
     }
 
     return (
@@ -38,13 +55,13 @@ export default function GroceryItem({id, name}){
                 icon="checkbox"
                 color={Colors.primary500}
                 size={30}
-                onPress={storeDeleteHandler}
+                onPress={groceryDeleteHandler}
             />
             <IconButton
                 icon="trash"
                 color={Colors.primary500}
                 size={30}
-                onPress={storeDeleteHandler}
+                onPress={groceryDeleteHandler}
             />
         </View>
     );

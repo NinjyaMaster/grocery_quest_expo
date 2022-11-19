@@ -14,7 +14,7 @@ import { BASE_URL, STORES_URL } from '../../constants/network';
 export default function StoreItem({id, name}){
     const navigation = useNavigation();
     const authCtx = useContext(AuthContext);
-    const storeCtx = useContext(StoresContext);
+    const storesCtx = useContext(StoresContext);
 
     function storesPressHandler(){
         navigation.navigate('StoreDetail',{
@@ -29,14 +29,12 @@ export default function StoreItem({id, name}){
           .then( res => {
             const storesList = res.data;
             console.log(storesList);
-            storeCtx.deleteStore(id);
+            storesCtx.deleteStore(id);
           })
           .catch(error => {
             console.log(error);
             return error;
           });
-        console.log("Store id:", id, "is deleted");
-        console.log(authCtx.token);
     }
 
     return (

@@ -5,7 +5,7 @@ export const StoresContext = createContext({
     stores: [],
     addStore:({description, amount, date}) => {},
     addGroceries: ({storeId, groceriesData}) => {},
-    deleteGrocery: ({}) => {},
+    deleteGrocery: ({storeId,groceryId}) => {},
     setStores: (store) => {},
     deleteStore: (id) => {},
     updateStore: (id, {description, amount, date}) => {}
@@ -45,7 +45,20 @@ function storesReducer(state, action){
         case 'DELETE_STORE':
             return state.filter((store) => store.id !== action.payload);
         case 'DELETE_GROCERY':
-                return state.filter((store) => store.id !== action.payload);
+            updatableStoreIndex = state.findIndex(
+                (store) => store.id === action.payload.storeId
+            );
+            updatableStore = state[updatableStoreIndex];
+            updatedStore = {...updatableStore};
+            deleteGroceryIndex = updatedStore.groceries.findIndex(
+                (grocery) => grocery.id === action.payload.groceryId
+            );
+            if(deleteGroceryIndex > -1 ){
+                updatedStore.groceries.splice(deleteGroceryIndex, 1);
+            }
+            updatedStores = [...state];
+            updatedStores[updatableStoreIndex] = updatedStore;
+            return updatedStores;
         default:
             return state;
     }
@@ -70,8 +83,8 @@ export default function StoresContextProvider({children}){
         dispatch({type: 'DELETE_STORE', payload: id});
     }
 
-    function deleteGrocery(id){
-        dispatch({type: 'DELETE_GROCERY', payload: id});
+    function deleteGrocery(storeId, groceryId){
+        dispatch({type: 'DELETE_GROCERY', payload: {storeId: storeId, groceryId:groceryId}});
     }
 
     function updateStore(id, storeData){

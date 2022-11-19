@@ -6,6 +6,7 @@ export const AuthContext = createContext({
     isAuthenticated: false,
     email: '',
     username: '',
+    apiAuthHeaders: '',
     authenticate: (responseData) => {},
     logout: () => {},
 });
@@ -38,6 +39,9 @@ export default function AuthContextProvider({ children }) {
     const value = {
         token: accessToken,
         isAuthenticated: !!accessToken,
+        apiAuthHeaders: {
+            headers: {"Authorization": `Bearer ${accessToken}`}
+        },
         authenticate: authenticate,
         validateRegistration: validateRegistration,
         logout: logout

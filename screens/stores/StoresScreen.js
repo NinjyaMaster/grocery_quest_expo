@@ -16,7 +16,7 @@ export default function StoresScreen({navigation}) {
   useEffect( () => {
     axios.get(
       `${BASE_URL}${STORES_URL}`,
-      { headers: {"Authorization": `Bearer ${authCtx.token}`}}
+      authCtx.apiAuthHeaders
     )
     .then( res => {
       const storesList = res.data;

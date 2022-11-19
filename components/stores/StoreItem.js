@@ -24,7 +24,7 @@ export default function StoreItem({id, name}){
     function storeDeleteHandler(){
         axios.delete(
             `${BASE_URL}${STORES_URL}${id}`,
-            { headers: {"Authorization": `Bearer ${authCtx.token}`}}
+            authCtx.apiAuthHeaders
           )
           .then( res => {
             const storesList = res.data;

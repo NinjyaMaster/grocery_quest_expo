@@ -33,6 +33,7 @@ export default function StoreDetailScreen({route, navigation}) {
   function handleAddGrocery(){
       navigation.navigate("AddGrocery",{
         storeId: storeId,
+        storeName: store.name
       });
   }
 

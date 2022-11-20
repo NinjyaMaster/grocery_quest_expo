@@ -3,7 +3,7 @@ import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
 import { AuthContext } from '../../contexts/auth-context';
 import { StoresContext } from '../../contexts/stores_context';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import {    BASE_URL,
   ADD_GROCERY_URL
@@ -14,8 +14,15 @@ export default function AddGroceryScreen({route, navigation}) {
   const authCtx = useContext(AuthContext);
   const storesCtx = useContext(StoresContext);
   const storeId = route.params?.storeId;
+  const storeName = route.params?.storeName;
 
   const [enteredGrocery, setEnteredGrocery] = useState('');
+
+  useEffect( () => {
+    navigation.setOptions({
+     title: "Add Grocery to " + storeName,
+    });
+  }, []);
 
   function handleCancel(){
     navigation.goBack();

@@ -46,9 +46,6 @@ export default function StoreItem({id, name}){
                 <View style={styles.storeItem}>
                     <View>
                         <Text style={[styles.textBase, styles.name]}>
-                            id : {id}
-                        </Text>
-                        <Text style={styles.textBase}>
                             {name}
                         </Text>
                     </View>
@@ -85,7 +82,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.4,
     },
     textBase: {
-        color: Colors.primary1000
+        color: Colors.primary700
     },
     name: {
         fontSize: 16,
@@ -96,7 +93,6 @@ const styles = StyleSheet.create({
         paddingHorizontal:12,
         paddingVertical:4,
         flexDirection:'row',
-        backgroundColor:'white',
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 4,

@@ -22,10 +22,10 @@ export default function StoresOutput({stores}){
 const styles = StyleSheet.create({
     container:{
         //flex: 1,
-        paddingHorizontal: 24,
+        //paddingHorizontal: 24,
         paddingTop: 24,
         paddingBottom: 0,
-        //backgroundColor: Colors.primary700,
+        //backgroundColor: Colors.primary100,
     },
     infoText:{
         color: 'white',

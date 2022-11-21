@@ -4,6 +4,8 @@ import Input from '../../components/ui/Input';
 import { AuthContext } from '../../contexts/auth-context';
 import { StoresContext } from '../../contexts/stores_context';
 import { useContext, useState } from 'react';
+import axios from 'axios';
+import { BASE_URL,STORES_URL } from '../../constants/network';
 
 
 export default function AddStoreScreen({navigation}) {
@@ -12,13 +14,46 @@ export default function AddStoreScreen({navigation}) {
 
   const [enteredStore, setEnteredStore] = useState('');
   const [enteredGrocery, setEnteredGrocery] = useState('');
+  const [enteredQty, setEnteredQty] = useState(1);
 
   function handleCancel(){
     navigation.goBack();
   }
 
+  const IsGroceryEmpty = () => {
+    const groceryString = enteredGrocery.trim();
+    return groceryString.length <= 0 ? true : false ;
+
+  }
+
   function handleSaveStore(){
-    console.log("store saved");
+    //const string2 = `something ${doSomething() ? 'x' : 'y'}`
+    const enternedGroceries = IsGroceryEmpty() ? [] : [{
+                    "name": enteredGrocery,
+                    "qty": enteredQty,
+                    "store_id": 0, // correct store_id will be set inside of backend serializer
+                    "is_completed": false
+                    }];
+    const bodyParameters = {
+      "name": enteredStore,
+      "store_id": 0, // correct store_id will be set inside of backend serializer
+      "is_completed": false,
+      "groceries":enternedGroceries
+    };
+
+    axios.post(
+      `${BASE_URL}${STORES_URL}`,
+      bodyParameters,
+      authCtx.apiAuthHeaders
+    )
+    .then(res => {
+      storesCtx.addStore(res.data);
+      navigation.goBack();
+    })
+    .catch(error => {
+      console.log(error);
+      return error;
+    });
   }
 
   function updateInputValueHandler(inputType, enteredValue) {
@@ -29,6 +64,9 @@ export default function AddStoreScreen({navigation}) {
       case 'grocery':
         setEnteredGrocery(enteredValue);
         break;
+      case 'qty':
+          setEnteredQty(enteredValue);
+          break;       
     }
   }
 
@@ -48,6 +86,13 @@ export default function AddStoreScreen({navigation}) {
           //keyboardType="email-address"
           isInvalid={true}
         />
+      <Input
+          label="qty"
+          onUpdateValue={updateInputValueHandler.bind(this, 'qty')}
+          value={enteredQty}
+          //keyboardType="email-address"
+          isInvalid={true}
+        />        
         <View style={styles.buttonContainer}>
           <Button onPress={handleSaveStore}>Save</Button>
           <Button onPress={handleCancel}>Cancel</Button>

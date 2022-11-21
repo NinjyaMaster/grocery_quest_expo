@@ -36,7 +36,6 @@ export default function AddStoreScreen({navigation}) {
                     }];
     const bodyParameters = {
       "name": enteredStore,
-      "store_id": 0, // correct store_id will be set inside of backend serializer
       "is_completed": false,
       "groceries":enternedGroceries
     };

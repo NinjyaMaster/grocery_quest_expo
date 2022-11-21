@@ -20,7 +20,6 @@ export default function StoresScreen({navigation}) {
     )
     .then( res => {
       const storesList = res.data;
-      console.log(storesList);
       storeCtx.setStores(storesList);
     })
     .catch(error => {

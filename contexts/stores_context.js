@@ -4,7 +4,7 @@ import { createContext, useReducer } from "react";
 export const StoresContext = createContext({
     stores: [],
     addStore:({description, amount, date}) => {},
-    addGroceries: ({storeId, groceriesData}) => {},
+    addGroceries: ({storeId, groceriesList}) => {},
     deleteGrocery: ({storeId,groceryId}) => {},
     setStores: (store) => {},
     deleteStore: (id) => {},
@@ -26,7 +26,10 @@ function storesReducer(state, action){
             );
             updatableStore = state[updatableStoreIndex];
             updatedStore = {...updatableStore};
-            updatedStore.groceries.push(action.payload.groceriesData);
+            updatedStore.groceries.splice(0,updatedStore.groceries.length);
+            action.payload.groceriesList.forEach(grocery => {
+                updatedStore.groceries.push(grocery);
+            });
             updatedStores = [...state];
             updatedStores[updatableStoreIndex] = updatedStore;
             return updatedStores;
@@ -38,9 +41,9 @@ function storesReducer(state, action){
                 (store) => store.id === action.payload.id
                 );
             updatableStore = state[updatableStoreIndex];
-            updatedItem = {...updatableStore, ...action.payload.data};
+            //updatedItem = {...updatableStore, ...action.payload.data};
             updatedStores = [...state];
-            updatedStores[updatableStoreIndex] = updatedItem;
+            updatedStores[updatableStoreIndex] = action.payload.data;
             return updatedStores;
         case 'DELETE_STORE':
             return state.filter((store) => store.id !== action.payload);
@@ -71,8 +74,8 @@ export default function StoresContextProvider({children}){
         dispatch({type: 'ADD_STORE', payload: storeData});
     }
 
-    function addGroceries(storeId, groceriesData){
-        dispatch({type: 'ADD_GROCERIES', payload: {storeId:storeId, groceriesData:groceriesData}});
+    function addGroceries(storeId, groceriesList){
+        dispatch({type: 'ADD_GROCERIES', payload: {storeId:storeId, groceriesList:groceriesList}});
     }
 
     function setStores(stores){

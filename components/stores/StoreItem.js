@@ -27,8 +27,8 @@ export default function StoreItem({id, name}){
             authCtx.apiAuthHeaders
           )
           .then( res => {
-            const storesList = res.data;
-            console.log(storesList);
+            //const storesList = res.data;
+            //console.log(storesList);
             storesCtx.deleteStore(id);
           })
           .catch(error => {

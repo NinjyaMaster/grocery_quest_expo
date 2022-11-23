@@ -1,12 +1,19 @@
-import { FlatList, Text } from "react-native";
+import { FlatList } from "react-native";
 
 import StoreItem from "./StoreItem";
 
-function renderStoreItem(itemData){
-    return <StoreItem {...itemData.item} />
-}
 
-export default function StoresList({stores}){
+
+export default function StoresList({stores, handleDeleteStore}){
+
+    const renderStoreItem = ({ item }) => {
+        return (
+            <StoreItem {...item}
+                handleDeleteStore={handleDeleteStore}
+            />
+        );
+      };
+
 
     return <FlatList 
             data={stores} 

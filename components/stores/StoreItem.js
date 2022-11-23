@@ -1,20 +1,12 @@
 import { Pressable, View, Text , StyleSheet} from "react-native";
 import { Colors } from "../../constants/colors";
 import { useNavigation } from "@react-navigation/native";
-import { useContext } from "react";
-
-import axios from 'axios';
 
 import IconButton from "../ui/IconButton";
 
-import { AuthContext } from '../../contexts/auth-context';
-import { StoresContext } from '../../contexts/stores_context';
-import { BASE_URL, STORES_URL } from '../../constants/network';
 
-export default function StoreItem({id, name}){
+export default function StoreItem({id, name, handleDeleteStore}){
     const navigation = useNavigation();
-    const authCtx = useContext(AuthContext);
-    const storesCtx = useContext(StoresContext);
 
     function storesPressHandler(){
         navigation.navigate('StoreDetail',{
@@ -22,19 +14,7 @@ export default function StoreItem({id, name}){
     }
 
     function storeDeleteHandler(){
-        axios.delete(
-            `${BASE_URL}${STORES_URL}${id}`,
-            authCtx.apiAuthHeaders
-          )
-          .then( res => {
-            //const storesList = res.data;
-            //console.log(storesList);
-            storesCtx.deleteStore(id);
-          })
-          .catch(error => {
-            console.log(error);
-            return error;
-          });
+        handleDeleteStore(id);
     }
 
     return (

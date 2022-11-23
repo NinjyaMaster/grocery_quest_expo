@@ -12,7 +12,7 @@ import axios from 'axios';
 import { BASE_URL, STORES_URL } from '../../constants/network';
 
 
-export default function StoreDetailScreen({route, navigation}) {
+export default function StoreDetailScreen({route, navigation, handleDeleteStore}) {
   const storeId = route.params?.storeId;
   const storesCtx = useContext(StoresContext);
   const authCtx = useContext(AuthContext);  
@@ -50,22 +50,22 @@ export default function StoreDetailScreen({route, navigation}) {
       });
   }
 
-  function handleDeleteStore(id){
-    axios.delete(
-      `${BASE_URL}${STORES_URL}${id}`,
-      authCtx.apiAuthHeaders
-    )
-    .then( res => {
-      const storesList = res.data;
-      storesCtx.deleteStore(id);
-      navigation.goBack();
-    })
-    .catch(error => {
-      console.log(error);
-      return error;
-    });
+//   function handleDeleteStore(id){
+//     axios.delete(
+//       `${BASE_URL}${STORES_URL}${id}`,
+//       authCtx.apiAuthHeaders
+//     )
+//     .then( res => {
+//       const storesList = res.data;
+//       storesCtx.deleteStore(id);
+//       navigation.goBack();
+//     })
+//     .catch(error => {
+//       console.log(error);
+//       return error;
+//     });
 
-}
+// }
 
   return (
     <View style={styles.rootContainer}>

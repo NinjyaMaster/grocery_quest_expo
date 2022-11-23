@@ -9,7 +9,7 @@ import { StoresContext } from '../../contexts/stores_context';
 import axios from 'axios';
 import { BASE_URL, STORES_URL } from '../../constants/network';
 
-export default function StoresScreen({navigation}) {
+export default function StoresScreen({navigation,handleDeleteStore}) {
   const authCtx = useContext(AuthContext);
   const storeCtx = useContext(StoresContext);
 
@@ -37,7 +37,7 @@ export default function StoresScreen({navigation}) {
   return (
     <View style={styles.rootContainer}>
       <Button onPress={handleAddStore}>Add Store</Button>
-      <StoresOutput stores={storeCtx.stores}/>
+      <StoresOutput stores={storeCtx.stores} handleDeleteStore={handleDeleteStore}/>
     </View>
   );
 }

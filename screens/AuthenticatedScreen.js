@@ -2,6 +2,7 @@ import 'react-native-gesture-handler';
 import { useContext } from 'react';
 import { Text, View, Image } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useNavigation } from "@react-navigation/native";
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -9,6 +10,7 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 import { AuthContext } from '../contexts/auth-context';
+import { StoresContext } from '../contexts/stores_context';
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -21,6 +23,9 @@ import MyProfileScreen from './MyProfileScreen';
 
 import { Colors } from '../constants/colors';
 import  IconButton from '../components/ui/IconButton'
+
+import axios from 'axios';
+import { BASE_URL, STORES_URL } from '../constants/network';
 
 
 const Stack = createNativeStackNavigator();
@@ -80,7 +85,7 @@ function CustomDrawerContent(props) {
 }
 
 
-function DrawerNavigator() {
+function DrawerNavigator({handleDeleteStore}) {
 
     return (
       <Drawer.Navigator
@@ -98,14 +103,18 @@ function DrawerNavigator() {
       >
         <Drawer.Screen
           name="Stores"
-          component={StoresScreen}
+          //component={StoresScreen}
           options={{
             title: 'Stores',
             drawerIcon: ({ color, size }) => (
               <Ionicons name="cart" color={color} size={size} />
             ),
           }}
-        />
+        >
+          {(props) => (
+                <StoresScreen handleDeleteStore={handleDeleteStore} {...props}/>
+          )}            
+        </Drawer.Screen>
         <Drawer.Screen
           name="Friends"
           component={FriendsScreen}
@@ -131,6 +140,28 @@ function DrawerNavigator() {
 }
 
 export default function AuthenticatedScreen() {
+  const storesCtx = useContext(StoresContext);
+  const authCtx = useContext(AuthContext); 
+  const navigation = useNavigation();
+
+  function handleDeleteStore(id){
+    axios.delete(
+      `${BASE_URL}${STORES_URL}${id}`,
+      authCtx.apiAuthHeaders
+    )
+    .then( res => {
+      //const storesList = res.data;
+      storesCtx.deleteStore(id);
+      navigation.navigate('Stores');
+    })
+    .catch(error => {
+      console.log(error);
+      return error;
+    });
+
+}
+
+
     return (
       <Stack.Navigator
       screenOptions={{
@@ -141,16 +172,23 @@ export default function AuthenticatedScreen() {
     >
       <Stack.Screen
         name="Drawer"
-        component={DrawerNavigator}
+        //component={DrawerNavigator}
         options={{
           headerShown: false,
         }}
-      />
+      >
+          {(props) => (
+                <DrawerNavigator handleDeleteStore={handleDeleteStore} {...props}/>
+          )}          
+      </Stack.Screen>
       <Stack.Screen name="StoreDetail"
-        component={StoreDetailScreen}
-        options={{
-        }}
-      />
+        //component={StoreDetailScreen}
+        //options={{}}
+      >
+           {(props) => (
+                <StoreDetailScreen handleDeleteStore={handleDeleteStore} {...props}/>
+           )}        
+      </Stack.Screen>
       <Stack.Screen name="AddStore"
         component={AddStoreScreen}
         options={{

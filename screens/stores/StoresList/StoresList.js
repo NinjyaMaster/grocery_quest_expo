@@ -1,17 +1,17 @@
-import { StyleSheet, Text, View } from 'react-native';
-import Button from '../../components/ui/Button';
-import { AuthContext } from '../../contexts/auth-context';
-import { useContext, useEffect } from 'react';
+import { StyleSheet, View } from 'react-native';
+import Button from '../../../components/ui/Button';
+import { useEffect } from 'react';
+import useAuthCtx from '../../../hooks/useAuthCtx';
+import useStoresCtx from '../../../hooks/useStoresCtx';
 
-import StoresOutput from '../../components/stores/StoresOutput'
-import { StoresContext } from '../../contexts/stores_context';
+import StoresOutput from './StoresOutput'
 
 import axios from 'axios';
-import { BASE_URL, STORES_URL } from '../../constants/network';
+import { BASE_URL, STORES_URL } from '../../../constants/network';
 
-export default function StoresScreen({navigation,handleDeleteStore}) {
-  const authCtx = useContext(AuthContext);
-  const storeCtx = useContext(StoresContext);
+export default function StoresList({navigation,handleDeleteStore}) {
+  const authCtx = useAuthCtx();
+  const storeCtx = useStoresCtx();
 
   useEffect( () => {
     axios.get(

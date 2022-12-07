@@ -1,5 +1,4 @@
 import 'react-native-gesture-handler';
-import { useContext } from 'react';
 import { Text, View, Image } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useNavigation } from "@react-navigation/native";
@@ -9,17 +8,17 @@ import {
   DrawerItemList,
   DrawerItem,
 } from '@react-navigation/drawer';
-import { AuthContext } from '../contexts/auth-context';
-import { StoresContext } from '../contexts/stores_context';
+import useAuthCtx from '../hooks/useAuthCtx';
+import useStoresCtx from '../hooks/useStoresCtx';
 
 import { Ionicons } from '@expo/vector-icons';
 
-import StoresScreen from './stores/StoresScreen';
-import StoreDetailScreen from './stores/StoreDetailScreen';
-import AddStoreScreen from './stores/AddStoreScreen';
-import AddGroceryScreen from './stores/AddGrocery';
-import FriendsScreen from './FriendsScreen';
-import MyProfileScreen from './MyProfileScreen';
+import StoresList from './stores/StoresList/StoresList';
+import StoreDetail from './stores/StoreDetail/StoreDetail';
+import AddStore from './stores/AddStore';
+import AddGrocery from './stores/AddGrocery';
+import Friends from './Friends';
+import MyProfile from './MyProfile';
 
 import { Colors } from '../constants/colors';
 import  IconButton from '../components/ui/IconButton'
@@ -36,7 +35,7 @@ const Drawer = createDrawerNavigator();
 */
 
 const CustomDrawerContent = (props)  => {
-  const authCtx = useContext(AuthContext);
+  const authCtx = useAuthCtx();
 
   return (
     <View style={{ flex: 1 }}>
@@ -112,12 +111,12 @@ const DrawerNavigator = ({handleDeleteStore}) => {
           }}
         >
           {(props) => (
-                <StoresScreen handleDeleteStore={handleDeleteStore} {...props}/>
+                <StoresList handleDeleteStore={handleDeleteStore} {...props}/>
           )}
         </Drawer.Screen>
         <Drawer.Screen
           name="Friends"
-          component={FriendsScreen}
+          component={Friends}
           options={{
             title: 'Friends',
             drawerIcon: ({ color, size }) => (
@@ -127,7 +126,7 @@ const DrawerNavigator = ({handleDeleteStore}) => {
         />
         <Drawer.Screen
           name="My Profile"
-          component={MyProfileScreen}
+          component={MyProfile}
           options={{
             title: 'My Profile',
             drawerIcon: ({ color, size }) => (
@@ -140,8 +139,8 @@ const DrawerNavigator = ({handleDeleteStore}) => {
 }
 
 export default function AuthenticatedScreen() {
-  const storesCtx = useContext(StoresContext);
-  const authCtx = useContext(AuthContext);
+  const storesCtx = useStoresCtx();
+  const authCtx = useAuthCtx();
   const navigation = useNavigation();
 
   function handleDeleteStore(id){
@@ -186,18 +185,18 @@ export default function AuthenticatedScreen() {
         //options={{}}
       >
            {(props) => (
-                <StoreDetailScreen handleDeleteStore={handleDeleteStore} {...props}/>
+                <StoreDetail handleDeleteStore={handleDeleteStore} {...props}/>
            )}
       </Stack.Screen>
       <Stack.Screen name="AddStore"
-        component={AddStoreScreen}
+        component={AddStore}
         options={{
           presentation: 'modal',
           title: 'Add Store',
         }}
       />
       <Stack.Screen name="AddGrocery"
-        component={AddGroceryScreen}
+        component={AddGrocery}
         options={{
           presentation: 'modal',
           title: 'Add Grocery',

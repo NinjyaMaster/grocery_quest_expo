@@ -1,22 +1,22 @@
 import axios from 'axios';
 import { StyleSheet, View } from 'react-native';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native'
 
-import Button from '../components/ui/Button';
-import Input from '../components/ui/Input';
-import FlatButton from '../components/ui/FlatButton';
+import Button from '../../components/ui/Button';
+import Input from '../../components/ui/Input';
+import FlatButton from '../../components/ui/FlatButton';
 
-import { BASE_URL, LOGIN_URL } from '../constants/network';
-import { AuthContext } from '../contexts/auth-context';
+import { BASE_URL, LOGIN_URL } from '../../constants/network';
+import useAuthCtx from '../../hooks/useAuthCtx';
 
-export default function LoginScreen() {
+export default function Login() {
 
   const [enteredEmail, setEnteredEmail] = useState('');
   const [enteredPassword, setEnteredPassword] = useState('');
 
   const navigation = useNavigation();
-  const authCtx = useContext(AuthContext);
+  const authCtx = useAuthCtx();
 
   const submitHandler = () => {
     console.log('login',`${BASE_URL}${LOGIN_URL}`);

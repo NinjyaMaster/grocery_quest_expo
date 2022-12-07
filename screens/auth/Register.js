@@ -1,16 +1,15 @@
 import axios from 'axios';
 import { Alert, StyleSheet, View } from 'react-native';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native'
 
-import Button from '../components/ui/Button';
-import Input from '../components/ui/Input';
-import FlatButton from '../components/ui/FlatButton';
+import Button from '../../components/ui/Button';
+import Input from '../../components/ui/Input';
+import FlatButton from '../../components/ui/FlatButton';
 
-import { BASE_URL, REGISTER_URL } from '../constants/network';
-import { AuthContext } from '../contexts/auth-context';
+import { BASE_URL, REGISTER_URL } from '../../constants/network';
 
-export default function RegisterScreen() {
+export default function Register() {
 
   const [enteredEmail, setEnteredEmail] = useState('');
   const [enteredConfirmEmail, setEnteredConfirmEmail] = useState('');
@@ -18,7 +17,6 @@ export default function RegisterScreen() {
   const [enteredUsername, setEnteredUsername] = useState('');
 
   const navigation = useNavigation();
-  const authCtx = useContext(AuthContext);
 
 
   const submitHandler = () => {

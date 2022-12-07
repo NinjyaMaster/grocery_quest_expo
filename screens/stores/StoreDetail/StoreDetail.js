@@ -1,21 +1,16 @@
 import { StyleSheet, Text, View } from 'react-native';
-import Button from '../../components/ui/Button';
-import IconButton from '../../components/ui/IconButton';
-import { useContext, useEffect, useState } from 'react';
+import Button from '../../../components/ui/Button';
+import IconButton from '../../../components/ui/IconButton';
+import { useEffect, useState } from 'react';
 
-import GroceriesList from '../../components/stores/GroceriesList';
-import { Colors } from '../../constants/colors';
-
-import { StoresContext } from '../../contexts/stores_context';
-import { AuthContext } from '../../contexts/auth-context';
-import axios from 'axios';
-import { BASE_URL, STORES_URL } from '../../constants/network';
+import GroceriesList from './GroceriesList';
+import { Colors } from '../../../constants/colors';
+import useStoresCtx from '../../../hooks/useStoresCtx';
 
 
-export default function StoreDetailScreen({route, navigation, handleDeleteStore}) {
+export default function StoreDetail({route, navigation, handleDeleteStore}) {
   const storeId = route.params?.storeId;
-  const storesCtx = useContext(StoresContext);
-  const authCtx = useContext(AuthContext);
+  const storesCtx = useStoresCtx();
   const [store, setStore] = useState({});
   const [isGroceryEmpty, setIsGroceryEmpty] = useState(true);
 

@@ -15,8 +15,8 @@ export default function StoresList({stores, handleDeleteStore}){
       };
 
 
-    return <FlatList 
-            data={stores} 
+    return <FlatList
+            data={stores}
             renderItem={renderStoreItem}
             keyExtractor={(item)=> item.id}
             />;

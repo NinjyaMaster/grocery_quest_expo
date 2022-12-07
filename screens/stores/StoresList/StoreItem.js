@@ -1,8 +1,8 @@
 import { Pressable, View, Text , StyleSheet} from "react-native";
-import { Colors } from "../../constants/colors";
+import { Colors } from "../../../constants/colors";
 import { useNavigation } from "@react-navigation/native";
 
-import IconButton from "../ui/IconButton";
+import IconButton from '../../../components/ui/IconButton';
 
 
 export default function StoreItem({id, name, handleDeleteStore}){

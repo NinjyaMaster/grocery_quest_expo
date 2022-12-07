@@ -1,16 +1,16 @@
 import { StyleSheet, Text, View } from 'react-native';
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
-import { AuthContext } from '../../contexts/auth-context';
-import { StoresContext } from '../../contexts/stores_context';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { BASE_URL,STORES_URL } from '../../constants/network';
+import useAuthCtx from '../../hooks/useAuthCtx';
+import useStoresCtx from '../../hooks/useStoresCtx';
 
 
-export default function AddStoreScreen({navigation}) {
-  const authCtx = useContext(AuthContext);
-  const storesCtx = useContext(StoresContext);
+export default function AddStore({navigation}) {
+  const authCtx = useAuthCtx();
+  const storesCtx = useStoresCtx();
 
   const [enteredStore, setEnteredStore] = useState('');
   const [enteredGrocery, setEnteredGrocery] = useState('');

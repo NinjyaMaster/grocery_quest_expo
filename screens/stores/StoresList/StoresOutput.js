@@ -1,13 +1,13 @@
 import {View, StyleSheet, Text} from "react-native";
-import StoresList from "./StoresList";
-import { Colors } from "../../constants/colors";
+import StoresFlatList from "./StoresFlatList";
+import { Colors } from "../../../constants/colors";
 
 
 export default function StoresOutput({stores, handleDeleteStore}){
     let content;
 
     if(stores.length > 0){
-        content = <StoresList stores={stores} handleDeleteStore={handleDeleteStore}/>;
+        content = <StoresFlatList stores={stores} handleDeleteStore={handleDeleteStore}/>;
     }else{
         content = <Text style={styles.infoText}>Please add stores</Text>
     }

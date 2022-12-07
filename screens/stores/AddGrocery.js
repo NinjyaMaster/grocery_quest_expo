@@ -1,16 +1,16 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
-import { AuthContext } from '../../contexts/auth-context';
-import { StoresContext } from '../../contexts/stores_context';
-import { useContext, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BASE_URL, STORES_URL} from '../../constants/network';
 import { Alert } from "react-native";
+import useAuthCtx from '../../hooks/useAuthCtx';
+import useStoresCtx from '../../hooks/useStoresCtx';
 
-export default function AddGroceryScreen({route, navigation}) {
-  const authCtx = useContext(AuthContext);
-  const storesCtx = useContext(StoresContext);
+export default function AddGrocery({route, navigation}) {
+  const authCtx = useAuthCtx();
+  const storesCtx = useStoresCtx();
   const storeId = route.params?.storeId;
   const storeName = route.params?.storeName;
 

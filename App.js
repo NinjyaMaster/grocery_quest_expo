@@ -1,25 +1,26 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 
 import { StatusBar } from 'expo-status-bar';
 
-import AuthenticatedScreen from './screens/AuthenticatedScreen';
-import AllowAnyScreen from './screens/AllowAny';
-import AuthContextProvider, { AuthContext } from './contexts/auth-context';
-import StoreContextPtovider from './contexts/stores_context';
+import Authenticated from './screens/Authenticated';
+import AllowAny from './screens/AllowAny';
+import { AuthProvider }  from './contexts/AuthProvider';
+import useAuthCtx from './hooks/useAuthCtx';
+import StoreContextPtovider from './contexts/StoresContextProvider';
 
 
 const Stack = createNativeStackNavigator();
 
 const Navigation = () =>{
-  const authCtx = useContext(AuthContext);
+  const authCtx = useAuthCtx();
 
   return (
     <NavigationContainer>
-      {!authCtx.isAuthenticated  &&  <AllowAnyScreen />}
-      {authCtx.isAuthenticated  && <StoreContextPtovider><AuthenticatedScreen /></StoreContextPtovider>}
+      {!authCtx.isAuthenticated  &&  <AllowAny />}
+      {authCtx.isAuthenticated  && <StoreContextPtovider><Authenticated /></StoreContextPtovider>}
     </NavigationContainer>
   )
 }
@@ -30,9 +31,9 @@ export default function App() {
   return (
     <>
       <StatusBar style="dark" />
-      <AuthContextProvider>
+      <AuthProvider>
         <Navigation />
-      </AuthContextProvider>
+      </AuthProvider>
     </>
   );
 }

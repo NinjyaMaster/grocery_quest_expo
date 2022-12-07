@@ -7,7 +7,7 @@ import RegisterScreen from './RegisterScreen';
 
 const Stack = createNativeStackNavigator();
 
-export default function AllowAnyScreen() {
+export default function AllowAnyScreen(){
   return (
     <Stack.Navigator
     screenOptions={{
@@ -29,7 +29,7 @@ export default function AllowAnyScreen() {
       options={{
         headerShown: false,
       }}
-    />    
+    />
     </Stack.Navigator>
   );
 }

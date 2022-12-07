@@ -16,7 +16,7 @@ export default function AddStoreScreen({navigation}) {
   const [enteredGrocery, setEnteredGrocery] = useState('');
   const [enteredQty, setEnteredQty] = useState(1);
 
-  function handleCancel(){
+  const handleCancel = () => {
     navigation.goBack();
   }
 
@@ -26,7 +26,7 @@ export default function AddStoreScreen({navigation}) {
 
   }
 
-  function handleSaveStore(){
+  const handleSaveStore = () =>{
     //const string2 = `something ${doSomething() ? 'x' : 'y'}`
     const enternedGroceries = IsGroceryEmpty() ? [] : [{
                     "name": enteredGrocery,
@@ -55,7 +55,7 @@ export default function AddStoreScreen({navigation}) {
     });
   }
 
-  function updateInputValueHandler(inputType, enteredValue) {
+  const updateInputValueHandler = (inputType, enteredValue) => {
     switch (inputType) {
       case 'store':
         setEnteredStore(enteredValue);
@@ -65,7 +65,7 @@ export default function AddStoreScreen({navigation}) {
         break;
       case 'qty':
           setEnteredQty(enteredValue);
-          break;       
+          break;
     }
   }
 
@@ -91,7 +91,7 @@ export default function AddStoreScreen({navigation}) {
           value={enteredQty}
           //keyboardType="email-address"
           isInvalid={true}
-        />        
+        />
         <View style={styles.buttonContainer}>
           <Button onPress={handleSaveStore}>Save</Button>
           <Button onPress={handleCancel}>Cancel</Button>

@@ -15,7 +15,7 @@ import { BASE_URL, STORES_URL } from '../../constants/network';
 export default function StoreDetailScreen({route, navigation, handleDeleteStore}) {
   const storeId = route.params?.storeId;
   const storesCtx = useContext(StoresContext);
-  const authCtx = useContext(AuthContext);  
+  const authCtx = useContext(AuthContext);
   const [store, setStore] = useState({});
   const [isGroceryEmpty, setIsGroceryEmpty] = useState(true);
 
@@ -43,7 +43,7 @@ export default function StoreDetailScreen({route, navigation, handleDeleteStore}
 
 
 
-  function handleAddGrocery(){
+  const handleAddGrocery = () =>{
       navigation.navigate("AddGrocery",{
         storeId: storeId,
         storeName: store.name

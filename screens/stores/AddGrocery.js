@@ -17,7 +17,7 @@ export default function AddGroceryScreen({route, navigation}) {
   const [enteredGrocery1, setEnteredGrocery1] = useState('');
   const [enteredQty1, setEnteredQty1] = useState(1);
   const [enteredGrocery2, setEnteredGrocery2] = useState('');
-  const [enteredQty2, setEnteredQty2] = useState(1);  
+  const [enteredQty2, setEnteredQty2] = useState(1);
 
 
   useEffect( () => {
@@ -26,7 +26,7 @@ export default function AddGroceryScreen({route, navigation}) {
     });
   }, []);
 
-  function handleCancel(){
+  const handleCancel = () => {
     navigation.goBack();
   }
 
@@ -35,7 +35,7 @@ export default function AddGroceryScreen({route, navigation}) {
     return trimmedGroceryStr.length <= 0 ? true : false ;
   }
 
-  function handleSaveGrocery(){
+  const handleSaveGrocery = () =>{
     let enternedGroceries = IsGroceryEmpty(enteredGrocery1) ? [] : [{
       "name": enteredGrocery1,
       "qty": enteredQty1,
@@ -71,20 +71,20 @@ export default function AddGroceryScreen({route, navigation}) {
     });
   }
 
-  function updateInputValueHandler(inputType, enteredValue) {
+  const updateInputValueHandler = (inputType, enteredValue) => {
     switch (inputType) {
       case 'grocery1':
         setEnteredGrocery1(enteredValue);
         break;
       case 'qty1':
         setEnteredQty1(enteredValue);
-        break;      
+        break;
       case 'grocery2':
         setEnteredGrocery2(enteredValue);
         break;
       case 'qty2':
         setEnteredQty2(enteredValue);
-        break;             
+        break;
     }
   }
 
@@ -103,7 +103,7 @@ export default function AddGroceryScreen({route, navigation}) {
           value={enteredQty1}
           //keyboardType="email-address"
           isInvalid={true}
-        />       
+        />
       <Input
           label="Grocery"
           onUpdateValue={updateInputValueHandler.bind(this, 'grocery2')}
@@ -117,7 +117,7 @@ export default function AddGroceryScreen({route, navigation}) {
           value={enteredQty2}
           //keyboardType="email-address"
           isInvalid={true}
-        />        
+        />
         <View style={styles.buttonContainer}>
           <Button onPress={handleSaveGrocery}>Save</Button>
           <Button onPress={handleCancel}>Cancel</Button>

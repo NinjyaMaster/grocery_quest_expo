@@ -2,7 +2,7 @@ import { FlatList } from "react-native";
 
 import GroceryItem from "./GroceryItem";
 
-function renderGroceryItem(itemData){
+const renderGroceryItem = (itemData) =>{
     return <GroceryItem {...itemData.item} />
 }
 

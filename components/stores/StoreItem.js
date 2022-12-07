@@ -8,12 +8,12 @@ import IconButton from "../ui/IconButton";
 export default function StoreItem({id, name, handleDeleteStore}){
     const navigation = useNavigation();
 
-    function storesPressHandler(){
+    const storesPressHandler = () =>{
         navigation.navigate('StoreDetail',{
              storeId: id });
     }
 
-    function storeDeleteHandler(){
+    const storeDeleteHandler = () =>{
         handleDeleteStore(id);
     }
 

@@ -29,7 +29,7 @@ export default function StoresScreen({navigation,handleDeleteStore}) {
 
   },[]);
 
-  function handleAddStore(){
+  const handleAddStore = () =>{
     navigation.navigate("AddStore");
 
   }

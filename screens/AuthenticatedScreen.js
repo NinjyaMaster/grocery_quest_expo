@@ -35,7 +35,7 @@ const Drawer = createDrawerNavigator();
 *    Tag design is from https://youtu.be/mRoDNjhRO3E
 */
 
-function CustomDrawerContent(props) {
+const CustomDrawerContent = (props)  => {
   const authCtx = useContext(AuthContext);
 
   return (
@@ -85,7 +85,7 @@ function CustomDrawerContent(props) {
 }
 
 
-function DrawerNavigator({handleDeleteStore}) {
+const DrawerNavigator = ({handleDeleteStore}) => {
 
     return (
       <Drawer.Navigator
@@ -113,7 +113,7 @@ function DrawerNavigator({handleDeleteStore}) {
         >
           {(props) => (
                 <StoresScreen handleDeleteStore={handleDeleteStore} {...props}/>
-          )}            
+          )}
         </Drawer.Screen>
         <Drawer.Screen
           name="Friends"
@@ -141,7 +141,7 @@ function DrawerNavigator({handleDeleteStore}) {
 
 export default function AuthenticatedScreen() {
   const storesCtx = useContext(StoresContext);
-  const authCtx = useContext(AuthContext); 
+  const authCtx = useContext(AuthContext);
   const navigation = useNavigation();
 
   function handleDeleteStore(id){
@@ -179,7 +179,7 @@ export default function AuthenticatedScreen() {
       >
           {(props) => (
                 <DrawerNavigator handleDeleteStore={handleDeleteStore} {...props}/>
-          )}          
+          )}
       </Stack.Screen>
       <Stack.Screen name="StoreDetail"
         //component={StoreDetailScreen}
@@ -187,7 +187,7 @@ export default function AuthenticatedScreen() {
       >
            {(props) => (
                 <StoreDetailScreen handleDeleteStore={handleDeleteStore} {...props}/>
-           )}        
+           )}
       </Stack.Screen>
       <Stack.Screen name="AddStore"
         component={AddStoreScreen}

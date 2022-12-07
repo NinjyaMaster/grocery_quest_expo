@@ -18,7 +18,7 @@ export default function LoginScreen() {
   const navigation = useNavigation();
   const authCtx = useContext(AuthContext);
 
-  function submitHandler(){
+  const submitHandler = () => {
     console.log('login',`${BASE_URL}${LOGIN_URL}`);
     console.log(enteredEmail)
     console.log(enteredPassword)
@@ -37,7 +37,7 @@ export default function LoginScreen() {
           });
   }
 
-  function updateInputValueHandler(inputType, enteredValue) {
+  const updateInputValueHandler = (inputType, enteredValue) => {
     switch (inputType) {
       case 'email':
         setEnteredEmail(enteredValue);
@@ -48,7 +48,7 @@ export default function LoginScreen() {
     }
   }
 
-  function switchToRegister(){
+  const switchToRegister = () =>{
     navigation.replace('Register');
   }
 

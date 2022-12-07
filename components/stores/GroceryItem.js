@@ -15,12 +15,12 @@ export default function GroceryItem({id, store_id, name}){
     const authCtx = useContext(AuthContext);
     const storesCtx = useContext(StoresContext);
 
-    function storesPressHandler(){
+    const storesPressHandler = () =>{
         //navigation.navigate('StoreDetail',{
         //     storeId: id });
     }
 
-    function groceryDeleteHandler(){
+    const groceryDeleteHandler = () =>{
         axios.delete(
             `${BASE_URL}${GROCERY_URL}${id}`,
             authCtx.apiAuthHeaders

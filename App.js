@@ -13,7 +13,7 @@ import StoreContextPtovider from './contexts/stores_context';
 
 const Stack = createNativeStackNavigator();
 
-function Navigation(){
+const Navigation = () =>{
   const authCtx = useContext(AuthContext);
 
   return (

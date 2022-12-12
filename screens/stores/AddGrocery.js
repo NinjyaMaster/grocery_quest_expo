@@ -2,15 +2,14 @@ import { StyleSheet, View } from 'react-native';
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { BASE_URL, STORES_URL} from '../../constants/network';
+import { STORES_URL} from '../../constants/network';
 import { Alert } from "react-native";
-import useAuthCtx from '../../hooks/useAuthCtx';
 import useStoresCtx from '../../hooks/useStoresCtx';
+import useAxiosCtx from '../../hooks/useAxiosCtx';
 
 export default function AddGrocery({route, navigation}) {
-  const authCtx = useAuthCtx();
   const storesCtx = useStoresCtx();
+  const { authAxios } = useAxiosCtx();
   const storeId = route.params?.storeId;
   const storeName = route.params?.storeName;
 
@@ -35,7 +34,7 @@ export default function AddGrocery({route, navigation}) {
     return trimmedGroceryStr.length <= 0 ? true : false ;
   }
 
-  const handleSaveGrocery = () =>{
+  const handleSaveGrocery = async () =>{
     let enternedGroceries = IsGroceryEmpty(enteredGrocery1) ? [] : [{
       "name": enteredGrocery1,
       "qty": enteredQty1,
@@ -56,19 +55,18 @@ export default function AddGrocery({route, navigation}) {
       "groceries":enternedGroceries
     };
 
-    axios.patch(
-      `${BASE_URL}${STORES_URL}${storeId}`,
-      bodyParameters,
-      authCtx.apiAuthHeaders
-    )
-    .then(res => {
+
+    try{
+      const res = await authAxios.patch(
+        `${STORES_URL}${storeId}`,
+        bodyParameters
+      );
       storesCtx.addGroceries(storeId, res.data.groceries);
       navigation.goBack();
-    })
-    .catch(error => {
+    }catch(error){
       console.log(error);
       return error;
-    });
+    }
   }
 
   const updateInputValueHandler = (inputType, enteredValue) => {

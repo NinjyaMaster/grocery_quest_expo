@@ -1,13 +1,13 @@
-import axios from 'axios';
 import { Alert, StyleSheet, View } from 'react-native';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigation } from '@react-navigation/native'
 
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
 import FlatButton from '../../components/ui/FlatButton';
 
-import { BASE_URL, REGISTER_URL } from '../../constants/network';
+import { REGISTER_URL } from '../../constants/network';
+import { AxiosContext } from '../../contexts/AxiosProvider';
 
 export default function Register() {
 
@@ -17,39 +17,29 @@ export default function Register() {
   const [enteredUsername, setEnteredUsername] = useState('');
 
   const navigation = useNavigation();
+  const { publicAxios } = useContext(AxiosContext);  
 
 
-  const submitHandler = () => {
-    console.log('register',`${BASE_URL}${REGISTER_URL}`);
-    console.log(enteredEmail)
-    console.log(enteredPassword)
-
-    axios.post(`${BASE_URL}${REGISTER_URL}`,
-            {
-              username: enteredUsername,
-              email: enteredEmail,
-              password: enteredPassword,
-            })
-          .then(res => {
-            console.log(res.data);
-            Alert.alert(
-              `Email has sent to ${enteredEmail}`,
-              "Please verify the email",
-              [
-                {
-                  text: "Cancel",
-                  onPress: () => console.log("Cancel Pressed"),
-                  style: "cancel"
-                },
-                { text: "OK", onPress: () => console.log("OK Pressed") }
-              ]
-            );
-            navigation.replace('Login');
-          })
-          .catch(error => {
-            console.log(error);
-            return error;
-          });
+  const submitHandler = async () => {
+    try{
+      await publicAxios.post(REGISTER_URL, {
+        username: enteredUsername,
+        email: enteredEmail,
+        password: enteredPassword,
+      });
+      Alert.alert(
+        `Email has sent to ${enteredEmail}`,
+        "Please verify the email",
+        [
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ]
+      );
+      navigation.replace('Login');      
+    }catch (error) {
+      Alert.alert('Login Failed', error?.response?.data);
+      console.log(error);
+      return error;
+    }
   }
 
   const updateInputValueHandler = (inputType, enteredValue) => {

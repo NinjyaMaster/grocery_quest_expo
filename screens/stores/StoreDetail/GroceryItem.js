@@ -1,36 +1,30 @@
 import { Pressable, View, Text , StyleSheet} from "react-native";
 import { Colors } from "../../../constants/colors";
 import { useNavigation } from "@react-navigation/native";
-import useAuthCtx from "../../../hooks/useAuthCtx";
-
-import axios from 'axios';
+import useAxiosCtx from "../../../hooks/useAxiosCtx";
 
 import IconButton from '../../../components/ui/IconButton';
-import { BASE_URL, GROCERY_URL } from '../../../constants/network';
+import { GROCERY_URL } from '../../../constants/network';
 import useStoresCtx from "../../../hooks/useStoresCtx";
 
 export default function GroceryItem({id, store_id, name}){
     const navigation = useNavigation();
-    const authCtx = useAuthCtx();
     const storesCtx = useStoresCtx();
+    const { authAxios } = useAxiosCtx();
 
     const storesPressHandler = () =>{
         //navigation.navigate('StoreDetail',{
         //     storeId: id });
     }
 
-    const groceryDeleteHandler = () =>{
-        axios.delete(
-            `${BASE_URL}${GROCERY_URL}${id}`,
-            authCtx.apiAuthHeaders
-          )
-          .then( res => {
+    const groceryDeleteHandler = async () =>{
+        try{
+            authAxios.delete(`${GROCERY_URL}${id}`);
             storesCtx.deleteGrocery(store_id, id);
-          })
-          .catch(error => {
+        }catch(error){
             console.log(error);
             return error;
-          });
+        }
     }
 
     return (

@@ -1,16 +1,15 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
 import { useState } from 'react';
-import axios from 'axios';
-import { BASE_URL,STORES_URL } from '../../constants/network';
-import useAuthCtx from '../../hooks/useAuthCtx';
+import { STORES_URL } from '../../constants/network';
 import useStoresCtx from '../../hooks/useStoresCtx';
+import useAxiosCtx from '../../hooks/useAxiosCtx';
 
 
 export default function AddStore({navigation}) {
-  const authCtx = useAuthCtx();
   const storesCtx = useStoresCtx();
+  const { authAxios } = useAxiosCtx();
 
   const [enteredStore, setEnteredStore] = useState('');
   const [enteredGrocery, setEnteredGrocery] = useState('');
@@ -26,7 +25,7 @@ export default function AddStore({navigation}) {
 
   }
 
-  const handleSaveStore = () =>{
+  const handleSaveStore = async () =>{
     //const string2 = `something ${doSomething() ? 'x' : 'y'}`
     const enternedGroceries = IsGroceryEmpty() ? [] : [{
                     "name": enteredGrocery,
@@ -40,19 +39,17 @@ export default function AddStore({navigation}) {
       "groceries":enternedGroceries
     };
 
-    axios.post(
-      `${BASE_URL}${STORES_URL}`,
-      bodyParameters,
-      authCtx.apiAuthHeaders
-    )
-    .then(res => {
+    try{
+      const res = await authAxios.post(
+        STORES_URL,
+        bodyParameters,
+      );
       storesCtx.addStore(res.data);
       navigation.goBack();
-    })
-    .catch(error => {
-      console.log(error);
-      return error;
-    });
+    }catch(error){
+      console.log(JSON.stringify(error));
+      //console.log(error?.message);
+    }
   }
 
   const updateInputValueHandler = (inputType, enteredValue) => {

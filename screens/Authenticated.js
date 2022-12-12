@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import { Text, View, Image } from 'react-native';
+import { Text, View, Image, Alert } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -10,6 +10,7 @@ import {
 } from '@react-navigation/drawer';
 import useAuthCtx from '../hooks/useAuthCtx';
 import useStoresCtx from '../hooks/useStoresCtx';
+import useAxiosCtx from '../hooks/useAxiosCtx';
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -23,8 +24,7 @@ import MyProfile from './MyProfile';
 import { Colors } from '../constants/colors';
 import  IconButton from '../components/ui/IconButton'
 
-import axios from 'axios';
-import { BASE_URL, STORES_URL } from '../constants/network';
+import { STORES_URL } from '../constants/network';
 
 
 const Stack = createNativeStackNavigator();
@@ -138,25 +138,21 @@ const DrawerNavigator = ({handleDeleteStore}) => {
     );
 }
 
-export default function AuthenticatedScreen() {
+export default function Authenticated() {
   const storesCtx = useStoresCtx();
-  const authCtx = useAuthCtx();
   const navigation = useNavigation();
+  const {authAxios} = useAxiosCtx();
 
-  function handleDeleteStore(id){
-    axios.delete(
-      `${BASE_URL}${STORES_URL}${id}`,
-      authCtx.apiAuthHeaders
-    )
-    .then( res => {
-      //const storesList = res.data;
+  const handleDeleteStore = async (id) =>{
+    try{
+      await authAxios.delete(`${STORES_URL}${id}`);
       storesCtx.deleteStore(id);
       navigation.navigate('Stores');
-    })
-    .catch(error => {
+    }catch (error){
       console.log(error);
-      return error;
-    });
+      Alert.alert('Delete Store Failed', error.response.data.message);
+      return error;    
+    }
 
 }
 

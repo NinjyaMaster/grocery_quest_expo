@@ -1,14 +1,15 @@
-import axios from 'axios';
-import { StyleSheet, View } from 'react-native';
-import { useState } from 'react';
+import { StyleSheet, View, Alert } from 'react-native';
+import { useContext, useState } from 'react';
 import { useNavigation } from '@react-navigation/native'
 
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
 import FlatButton from '../../components/ui/FlatButton';
 
-import { BASE_URL, LOGIN_URL } from '../../constants/network';
+import { LOGIN_URL } from '../../constants/network';
 import useAuthCtx from '../../hooks/useAuthCtx';
+import { AxiosContext } from '../../contexts/AxiosProvider';
+import * as SecureStore from 'expo-secure-store';
 
 export default function Login() {
 
@@ -17,24 +18,32 @@ export default function Login() {
 
   const navigation = useNavigation();
   const authCtx = useAuthCtx();
+  const { publicAxios } = useContext(AxiosContext);
 
-  const submitHandler = () => {
-    console.log('login',`${BASE_URL}${LOGIN_URL}`);
-    console.log(enteredEmail)
-    console.log(enteredPassword)
-    axios.post(`${BASE_URL}${LOGIN_URL}`,
-            {
-              email: enteredEmail,
-              password: enteredPassword,
-            })
-          .then(res => {
-            console.log(res.data);
-            authCtx.authenticate(res.data);
-          })
-          .catch(error => {
-            console.log(error);
-            return error;
-          });
+  const submitHandler = async () => {
+    try{
+      const response = await publicAxios.post(LOGIN_URL, {
+        email:enteredEmail,
+        password: enteredPassword,
+      });
+
+      const {access, refresh} = response?.data?.tokens;
+      const {email, username } = response?.data
+      authCtx.setAuthState({
+        accessToken: access,
+        refreshToken: refresh,
+        authenticated: true,
+        email:email,
+        username:username
+      });
+      await SecureStore.setItemAsync('accessToken', access);
+      await SecureStore.setItemAsync('refreshToken', refresh);
+
+    }catch (error) {
+      Alert.alert('Login Failed', error?.response?.data);
+      console.error(error);
+      return error;
+    }
   }
 
   const updateInputValueHandler = (inputType, enteredValue) => {

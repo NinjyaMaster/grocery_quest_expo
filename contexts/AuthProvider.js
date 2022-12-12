@@ -1,52 +1,48 @@
-import { createContext, useState } from "react";
+//AuthContext.js
+// copied and modified : https://blog.logrocket.com/react-native-jwt-authentication-using-axios-interceptors/
+import React, {createContext, useState} from 'react';
+import * as SecureStore from 'expo-secure-store';
 
-const AuthContext = createContext({
-    accessToken: '',
-    refreshToken: '',
-    isAuthenticated: false,
+const AuthContext = createContext(null);
+const {Provider} = AuthContext;
+
+const AuthProvider = ({children}) => {
+  const [authState, setAuthState] = useState({
+    accessToken: null,
+    refreshToken: null,
+    authenticated: null,
     email: '',
-    username: '',
-    apiAuthHeaders: '',
-    authenticate: (responseData) => {},
-    logout: () => {},
-});
-export default AuthContext;
+    username: ''
+  });
 
-export const AuthProvider = ({ children }) => {
-    const [accessToken, setAccessToken] = useState();
-    const [refreshToken, setRefreshToken] = useState();
-    const [email, setEmail] = useState();
-    const [username, setUsername] = useState();
 
-    const authenticate = (responseData) =>{
-        setAccessToken(responseData['tokens']['access']);
-        setRefreshToken(responseData['tokens']['refresh']);
-        setEmail(responseData['email']);
-        setUsername(responseData['username']);
-    }
+  const logout = async () => {
+    await SecureStore.deleteItemAsync('accessToken');
+    await SecureStore.deleteItemAsync('refreshToken');
+    setAuthState({
+      accessToken: null,
+      refreshToken: null,
+      authenticated: false,
+      email: '',
+      username: '',      
+    });
+  };
 
-    const validateRegistration = (responseData) =>{
-        setEmail(responseData['data']['email']);
-        setUsername(responseData['data']['username']);
-    }
+  const getAccessToken = () => {
+    return authState.accessToken;
+  };
 
-    const logout = () =>{
-        setAccessToken(null);
-        setRefreshToken(null);
-        setEmail(null);
-        setUsername(null);
-    }
+  return (
+    <Provider
+      value={{
+        authState,
+        getAccessToken,
+        setAuthState,
+        logout
+      }}>
+      {children}
+    </Provider>
+  );
+};
 
-    const value = {
-        token: accessToken,
-        isAuthenticated: !!accessToken,
-        apiAuthHeaders: {
-            headers: {"Authorization": `Bearer ${accessToken}`}
-        },
-        authenticate: authenticate,
-        validateRegistration: validateRegistration,
-        logout: logout
-    };
-
-    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
+export {AuthContext, AuthProvider};

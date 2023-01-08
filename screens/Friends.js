@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function FriendsScreen(){
+export default function FriendsScreen() {
   return (
     <View style={styles.rootContainer}>
       <Text style={styles.title}>Friends!</Text>

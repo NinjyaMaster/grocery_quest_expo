@@ -1,6 +1,6 @@
 import { Alert, StyleSheet, View } from 'react-native';
 import { useState, useContext } from 'react';
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native';
 
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
@@ -10,37 +10,31 @@ import { REGISTER_URL } from '../../constants/network';
 import { AxiosContext } from '../../contexts/AxiosProvider';
 
 export default function Register() {
-
   const [enteredEmail, setEnteredEmail] = useState('');
   const [enteredConfirmEmail, setEnteredConfirmEmail] = useState('');
   const [enteredPassword, setEnteredPassword] = useState('');
   const [enteredUsername, setEnteredUsername] = useState('');
 
   const navigation = useNavigation();
-  const { publicAxios } = useContext(AxiosContext);  
-
+  const { publicAxios } = useContext(AxiosContext);
 
   const submitHandler = async () => {
-    try{
+    try {
       await publicAxios.post(REGISTER_URL, {
         username: enteredUsername,
         email: enteredEmail,
         password: enteredPassword,
       });
-      Alert.alert(
-        `Email has sent to ${enteredEmail}`,
-        "Please verify the email",
-        [
-          { text: "OK", onPress: () => console.log("OK Pressed") }
-        ]
-      );
-      navigation.replace('Login');      
-    }catch (error) {
+      Alert.alert(`Email has sent to ${enteredEmail}`, 'Please verify the email', [
+        { text: 'OK', onPress: () => console.log('OK Pressed') },
+      ]);
+      navigation.replace('Login');
+    } catch (error) {
       Alert.alert('Login Failed', error?.response?.data);
       console.log(error);
       return error;
     }
-  }
+  };
 
   const updateInputValueHandler = (inputType, enteredValue) => {
     switch (inputType) {
@@ -54,14 +48,14 @@ export default function Register() {
         setEnteredPassword(enteredValue);
         break;
       case 'username':
-          setEnteredUsername(enteredValue);
-          break;
+        setEnteredUsername(enteredValue);
+        break;
     }
-  }
+  };
 
-  const switchToRegister = () =>{
+  const switchToRegister = () => {
     navigation.replace('Login');
-  }
+  };
 
   return (
     <View style={styles.form}>
@@ -74,20 +68,17 @@ export default function Register() {
           isInvalid={true}
         />
         <Input
-            label="Confirm Email Address"
-            onUpdateValue={updateInputValueHandler.bind(this, 'confirmEmail')}
-            value={enteredConfirmEmail}
-            keyboardType="email-address"
-            isInvalid={true}
+          label="Confirm Email Address"
+          onUpdateValue={updateInputValueHandler.bind(this, 'confirmEmail')}
+          value={enteredConfirmEmail}
+          keyboardType="email-address"
+          isInvalid={true}
         />
         <Input
-            label="Username"
-            onUpdateValue={updateInputValueHandler.bind(
-              this,
-              'username'
-            )}
-            value={enteredUsername}
-            isInvalid={true}
+          label="Username"
+          onUpdateValue={updateInputValueHandler.bind(this, 'username')}
+          value={enteredUsername}
+          isInvalid={true}
         />
         <Input
           label="Password"
@@ -97,12 +88,8 @@ export default function Register() {
           isInvalid={true}
         />
         <View style={styles.buttons}>
-          <Button onPress={submitHandler}>
-              Signup
-          </Button>
-          <FlatButton onPress={switchToRegister}>
-              Login instead
-        </FlatButton>
+          <Button onPress={submitHandler}>Signup</Button>
+          <FlatButton onPress={switchToRegister}>Login instead</FlatButton>
         </View>
       </View>
     </View>

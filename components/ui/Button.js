@@ -36,6 +36,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'white',
     fontSize: 18,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
 });

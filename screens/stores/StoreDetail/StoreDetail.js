@@ -7,19 +7,16 @@ import GroceriesList from './GroceriesList';
 import { Colors } from '../../../constants/colors';
 import useStoresCtx from '../../../hooks/useStoresCtx';
 
-
-export default function StoreDetail({route, navigation, handleDeleteStore}) {
+export default function StoreDetail({ route, navigation, handleDeleteStore }) {
   const storeId = route.params?.storeId;
   const storesCtx = useStoresCtx();
   const [store, setStore] = useState({});
   const [isGroceryEmpty, setIsGroceryEmpty] = useState(true);
 
-  useEffect( () => {
-    const storeObj = storesCtx.stores.find(
-      (store) => store.id === storeId
-    );
+  useEffect(() => {
+    const storeObj = storesCtx.stores.find((store) => store.id === storeId);
     setStore(storeObj);
-    if(storeObj.groceries.length !== 0){
+    if (storeObj.groceries.length !== 0) {
       setIsGroceryEmpty(false);
     }
 
@@ -36,37 +33,35 @@ export default function StoreDetail({route, navigation, handleDeleteStore}) {
     });
   }, []);
 
+  const handleAddGrocery = () => {
+    navigation.navigate('AddGrocery', {
+      storeId: storeId,
+      storeName: store.name,
+    });
+  };
 
+  //   function handleDeleteStore(id){
+  //     axios.delete(
+  //       `${BASE_URL}${STORES_URL}${id}`,
+  //       authCtx.apiAuthHeaders
+  //     )
+  //     .then( res => {
+  //       const storesList = res.data;
+  //       storesCtx.deleteStore(id);
+  //       navigation.goBack();
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //       return error;
+  //     });
 
-  const handleAddGrocery = () =>{
-      navigation.navigate("AddGrocery",{
-        storeId: storeId,
-        storeName: store.name
-      });
-  }
-
-//   function handleDeleteStore(id){
-//     axios.delete(
-//       `${BASE_URL}${STORES_URL}${id}`,
-//       authCtx.apiAuthHeaders
-//     )
-//     .then( res => {
-//       const storesList = res.data;
-//       storesCtx.deleteStore(id);
-//       navigation.goBack();
-//     })
-//     .catch(error => {
-//       console.log(error);
-//       return error;
-//     });
-
-// }
+  // }
 
   return (
     <View style={styles.rootContainer}>
       <Button onPress={handleAddGrocery}>Add Grocery</Button>
-      {isGroceryEmpty &&  <Text>Please Add Grocery</Text>}
-      {!isGroceryEmpty  &&  <GroceriesList groceries={store.groceries} />}
+      {isGroceryEmpty && <Text>Please Add Grocery</Text>}
+      {!isGroceryEmpty && <GroceriesList groceries={store.groceries} />}
     </View>
   );
 }
@@ -76,7 +71,7 @@ const styles = StyleSheet.create({
     //flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop:20
+    paddingTop: 20,
     //padding: 32,
   },
   title: {

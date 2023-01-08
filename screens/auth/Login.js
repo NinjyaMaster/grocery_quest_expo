@@ -1,6 +1,6 @@
 import { StyleSheet, View, Alert } from 'react-native';
 import { useContext, useState } from 'react';
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native';
 
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
@@ -12,7 +12,6 @@ import { AxiosContext } from '../../contexts/AxiosProvider';
 import * as SecureStore from 'expo-secure-store';
 
 export default function Login() {
-
   const [enteredEmail, setEnteredEmail] = useState('');
   const [enteredPassword, setEnteredPassword] = useState('');
 
@@ -21,30 +20,29 @@ export default function Login() {
   const { publicAxios } = useContext(AxiosContext);
 
   const submitHandler = async () => {
-    try{
+    try {
       const response = await publicAxios.post(LOGIN_URL, {
-        email:enteredEmail,
+        email: enteredEmail,
         password: enteredPassword,
       });
 
-      const {access, refresh} = response?.data?.tokens;
-      const {email, username } = response?.data
+      const { access, refresh } = response?.data?.tokens;
+      const { email, username } = response?.data;
       authCtx.setAuthState({
         accessToken: access,
         refreshToken: refresh,
         authenticated: true,
-        email:email,
-        username:username
+        email: email,
+        username: username,
       });
       await SecureStore.setItemAsync('accessToken', access);
       await SecureStore.setItemAsync('refreshToken', refresh);
-
-    }catch (error) {
+    } catch (error) {
       Alert.alert('Login Failed', error?.response?.data);
       console.error(error);
       return error;
     }
-  }
+  };
 
   const updateInputValueHandler = (inputType, enteredValue) => {
     switch (inputType) {
@@ -55,11 +53,11 @@ export default function Login() {
         setEnteredPassword(enteredValue);
         break;
     }
-  }
+  };
 
-  const switchToRegister = () =>{
+  const switchToRegister = () => {
     navigation.replace('Register');
-  }
+  };
 
   return (
     <View style={styles.form}>
@@ -79,12 +77,8 @@ export default function Login() {
           isInvalid={true}
         />
         <View style={styles.buttons}>
-          <Button onPress={submitHandler}>
-              Login
-          </Button>
-          <FlatButton onPress={switchToRegister}>
-              Create a new user
-        </FlatButton>
+          <Button onPress={submitHandler}>Login</Button>
+          <FlatButton onPress={switchToRegister}>Create a new user</FlatButton>
         </View>
       </View>
     </View>

@@ -1,20 +1,19 @@
 //AuthContext.js
 // copied and modified : https://blog.logrocket.com/react-native-jwt-authentication-using-axios-interceptors/
-import React, {createContext, useState} from 'react';
+import React, { createContext, useState } from 'react';
 import * as SecureStore from 'expo-secure-store';
 
 const AuthContext = createContext(null);
-const {Provider} = AuthContext;
+const { Provider } = AuthContext;
 
-const AuthProvider = ({children}) => {
+const AuthProvider = ({ children }) => {
   const [authState, setAuthState] = useState({
     accessToken: null,
     refreshToken: null,
     authenticated: null,
     email: '',
-    username: ''
+    username: '',
   });
-
 
   const logout = async () => {
     await SecureStore.deleteItemAsync('accessToken');
@@ -24,7 +23,7 @@ const AuthProvider = ({children}) => {
       refreshToken: null,
       authenticated: false,
       email: '',
-      username: '',      
+      username: '',
     });
   };
 
@@ -38,11 +37,12 @@ const AuthProvider = ({children}) => {
         authState,
         getAccessToken,
         setAuthState,
-        logout
-      }}>
+        logout,
+      }}
+    >
       {children}
     </Provider>
   );
 };
 
-export {AuthContext, AuthProvider};
+export { AuthContext, AuthProvider };

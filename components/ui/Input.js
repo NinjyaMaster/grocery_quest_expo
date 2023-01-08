@@ -2,23 +2,13 @@ import { View, Text, TextInput, StyleSheet } from 'react-native';
 
 import { Colors } from '../../constants/colors';
 
-function Input({
-  label,
-  keyboardType,
-  secure,
-  onUpdateValue,
-  value,
-  isInvalid,
-}) {
+function Input({ label, keyboardType, secure, onUpdateValue, value, isInvalid }) {
   return (
     <View style={styles.inputContainer}>
-      <Text style={[styles.label, isInvalid && styles.labelInvalid]}>
-        {label}
-      </Text>
+      <Text style={[styles.label, isInvalid && styles.labelInvalid]}>{label}</Text>
       <TextInput
         style={[styles.input, isInvalid && styles.inputInvalid]}
         autoCapitalize={false}
-        autoCapitalize="none"
         keyboardType={keyboardType}
         secureTextEntry={secure}
         onChangeText={onUpdateValue}

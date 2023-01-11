@@ -92,6 +92,7 @@ export default function AddGrocery({ route, navigation }) {
         onUpdateValue={updateInputValueHandler.bind(this, 'grocery1')}
         value={enteredGrocery1}
         //keyboardType="email-address"
+        testID={'grocery1'}
         isInvalid={true}
       />
       <Input
